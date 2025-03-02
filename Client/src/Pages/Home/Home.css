@@ -352,3 +352,9 @@
         gap: 0 !important;
     }
 }
+
+@media (max-width: 425px) {
+    .outOfStock {
+        font-size: small;
+    }
+}

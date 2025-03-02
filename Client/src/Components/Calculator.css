@@ -106,3 +106,56 @@
         cursor: pointer;
     }
 }
+
+@media (max-width: 1024px) {
+    .calc-wrapper .inner-wrapper {
+        width: 50% !important;
+    }
+}
+@media (max-width: 930px) {
+    .calc-wrapper .inner-wrapper {
+        width: 60% !important;
+    }
+}
+@media (max-width: 768px) {
+    .calc-wrapper .inner-wrapper {
+        width: 70% !important;
+    }
+}
+@media (max-width: 660px) {
+    .calc-wrapper .inner-wrapper {
+        width: 80% !important;
+    }
+}
+@media (max-width: 580px) {
+    .calc-wrapper .inner-wrapper {
+        width: 90% !important;
+    }
+}
+@media (max-width: 520px) {
+    .calc-wrapper .inner-wrapper {
+        width: 90% !important;
+        & .calc-cont {
+            & .name {
+                font-size: 1.5rem !important;
+                width: 250px !important;
+            }
+        }
+    }
+}
+@media (max-width: 465px) {
+    .calc-wrapper .inner-wrapper {
+        width: 90% !important;
+        & .calc-cont {
+            & .name {
+                font-size: 1.3rem !important;
+                width: 200px !important;
+            }
+        }
+    }
+}
+@media (max-width: 465px) {
+    .calc-wrapper .inner-wrapper {
+        width: 95% !important;
+    }
+}

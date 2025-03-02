@@ -82,3 +82,39 @@
         }
     }
 }
+
+@media (max-width: 1024px) {
+    .dialog-wrapper .inner-wrapper {
+        width: 40%;
+    }
+}
+@media (max-width: 850px) {
+    .dialog-wrapper .inner-wrapper {
+        width: 45%;
+    }
+}
+@media (max-width: 768px) {
+    .dialog-wrapper .inner-wrapper {
+        width: 50%;
+    }
+}
+@media (max-width: 660px) {
+    .dialog-wrapper .inner-wrapper {
+        width: 60%;
+    }
+}
+@media (max-width: 560px) {
+    .dialog-wrapper .inner-wrapper {
+        width: 70%;
+    }
+}
+@media (max-width: 460px) {
+    .dialog-wrapper .inner-wrapper {
+        width: 80%;
+    }
+}
+@media (max-width: 378px) {
+    .dialog-wrapper .inner-wrapper {
+        width: 90%;
+    }
+}
