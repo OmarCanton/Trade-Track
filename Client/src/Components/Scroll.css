@@ -1,0 +1,18 @@
+.wrapper-scroll {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    border-radius: 50%;
+    box-shadow: 0 5px 10px -3px black;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    right: 50%;
+    cursor: pointer;
+    padding: 2px;
+    &:hover {
+        opacity: 0.7;
+    }
+}

@@ -1,0 +1,61 @@
+.panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 50px;
+    margin-right: 10%;
+    background-color: black;
+    width: 4.76rem;
+    z-index: 99;
+    transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    & > *:not(.status) {
+        display: none;
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+    &:hover {
+        width: 252px;
+        & .status {
+            background-color: rgb(7, 141, 252);
+        }
+        & > * {
+            display: flex;
+        }
+    }
+    
+    & > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    & .status {
+        background-color: transparent;
+        clip-path: circle();
+        padding: 7px;
+        cursor: pointer;
+        & .adminIcon {
+            margin-left: 5px;
+        }
+        & .userIcon {
+            font-weight: bold;
+        }
+    }
+    & .status p {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+    & .dashboard, .history{
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+}

@@ -1,0 +1,485 @@
+.dashoard-wrapper {
+    min-height: 100vh;
+    & .header-dashboard {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        width: 100%;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        position: relative;
+        & .left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            & .pageName {
+                font-size: 2.2rem;
+                font-weight: bold;
+            }
+        }
+        & .refresh {
+            cursor: pointer;
+            &:hover {
+                opacity: 0.6;
+            }
+        }
+    }
+    & .allSales {
+        display: flex;
+        width: 100%;
+        & .left-sales {
+            width: 60%;
+            & .sales {
+                & .sales-body {
+                    flex-wrap: wrap;
+                    /* padding: 10px;
+                    border-radius: 20px;
+                    background-color: #636262;
+                    box-shadow: 3px 5px 10px -2px black; */
+                }
+            }
+        }
+        & .right-analytics {
+            display: flex;
+            flex-direction: column;
+            width: 39%;
+            padding: 20px;
+            & .analytics-header {
+                display: flex;
+                font-weight: bold;
+                font-size: 2.2rem;
+                width: 100%;
+                align-items: center;
+                justify-content: center;
+            }
+            & .user-bars, .workers-bars {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+                max-height: 253px;
+                gap: 10px;
+                margin-top: 10px;
+                border-left: 1px solid lightgrey;
+                border-right: 1px solid lightgrey;
+                border-radius: 20px;
+                padding-left: 10px;
+                padding-right: 10px;
+                & .today_sales, .today_items_sold {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    height: 100%;
+                    width: 50%;
+                    padding: 5px;
+                    & .progressbar_today_sales {
+                        height: 100%;
+                    }
+                    & .text1 {
+                        position: absolute;
+                        top: 35%;
+                        left: 17.5%;
+                        text-align: center;
+                    }
+                    & .prog1_header {
+                        position: absolute;
+                        top: 103%;
+                        left: 30%;
+                        text-align: center;    
+                        font-weight: bold;
+                    }
+                }
+                & .today_items_sold {
+                    & .progressbar_items_sold {
+                        height: 100%;
+                    }
+                    & .text2 {
+                        position: absolute;
+                        top: 35%;
+                        right: 29%;
+                        text-align: center;    
+                    }
+                    & .prog2_header {
+                        position: absolute;
+                        top: 103%;
+                        right: 17%;
+                        text-align: center;
+                        font-weight: bold;    
+                    }
+                }
+            }
+            & .workers-bars {
+                margin-top: 24%;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                row-gap: 70px;
+                justify-items: center;
+                max-height: 100%;
+                width: 100%;
+                & .workerPrgBar {
+                    display: flex;
+                    position: relative;
+                    height: 100%;
+                    padding: 5px;
+                    & .workers_progBar {
+                        height: 100%;
+                        width: 100%;
+                    }
+                    & .prog3_header {
+                        font-weight: bold;
+                        position: absolute;
+                        top: 103%;
+                        left: 13%;
+                        text-align: center;
+                    }
+                    & .text3 {
+                        position: absolute;
+                        top: 35%;
+                        left: 16%;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+    & .sales, .manageShopItems {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        gap: 10px;
+        & .header {
+            font-size: 2.2rem;
+            font-weight: bold;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            & h3 {
+                font-size: 1.4rem;
+            }
+        }
+        & .sales-body {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            width: 100%;
+            & > div {
+                background-color: lightgrey;
+                display: flex;
+                flex-direction: column;
+                padding: 20px;
+                border-radius: 20px;
+                & .indicator {
+                    font-weight: bold;
+                    font-size: 2.5rem;
+                }
+            }
+        }
+        & .shop-management-body {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            flex-direction: column;
+            & .totals, .itemsAlt {
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                & > div {
+                    background-color: lightgrey;
+                    display: flex;
+                    flex-direction: column;
+                    padding: 20px;
+                    border-radius: 20px;
+                    & .indicator {
+                        font-weight: bold;
+                        font-size: 2.5rem;
+                    }
+                }
+            }
+            & .totals {
+                padding-bottom: 10px;
+            }
+            & .itemsAlt {
+                display: flex;
+                width: 100%;
+                border-radius: 10px;
+                & .addItems {
+                    background-color: transparent;
+                    display: flex;
+                    flex-direction: column;
+                    border: 1px solid lightgrey;
+                    width: 100%;
+                    & form {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                        width: 100%;
+                        padding: 10px;
+                        align-items: center;
+                        justify-content: center;
+                        & .imageView {
+                            clip-path: circle();
+                            height: 40vh;
+                            width: 36vw;
+                            background-color: lightgrey;
+                            & img {
+                                object-fit: contain;
+                            }
+                        }
+                        & input {
+                            padding: 15px;
+                            font-size: medium;
+                            border-radius: 20px;
+                            border: 1px solid black;
+                            width: 100%;
+                        }
+                        & select {
+                            padding: 15px;
+                            font-size: medium;
+                            border-radius: 20px;
+                            border: 1px solid black;
+                            width: 100%;
+                        }
+                        & button {
+                            padding: 10px;
+                            font-size: medium;
+                            width: 100px;
+                            border-radius: 50px;
+                            background-color: rgb(7, 141, 252);
+                            border: none;
+                            color: white;
+                            cursor: pointer;
+                            &:hover {
+                                opacity: 0.6;
+                            }
+                        }
+                    }
+                }
+                & .right {
+                    background-color: transparent;
+                    border: 1px solid lightgrey;
+                    width: 100%;
+                    & .addCategory, .delCategory {
+                        background-color: transparent;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                        & form {
+                            display: flex;
+                            align-items: flex-start;
+                            flex-direction: column;
+                            gap: 20px;
+                            align-items: center;
+                            justify-content: center;
+                            & input {
+                                padding: 10px;
+                                font-size: medium;
+                                border-radius: 20px;
+                                border: 1px solid black;
+                                padding: 15px;
+                                width: 100%;
+                            }
+                            & button {
+                                padding: 6px;
+                                font-size: medium;
+                                width: 80px;
+                                height: 50px;
+                                border-radius: 50px;
+                                background-color: rgb(7, 141, 252);
+                                border: none;
+                                color: white;
+                                cursor: pointer;
+                                &:hover {
+                                    opacity: 0.6;
+                                }
+                            }
+                            & .delBtn {
+                                background-color: red;
+                            }
+                        }
+                    }
+                }
+                & a {
+                    text-decoration: none;
+                    color: black;
+                    font-weight: bold;
+                    border-radius: 15px;
+                    border: 1px solid lightgrey;
+                    padding: 15px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+            }
+        }
+    }
+    & .title {
+        font-weight: bold;
+        font-size: 1.4rem;
+        padding-left: 20px;
+    }
+    & .sales_workers {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        padding: 20px;
+        gap: 10px;
+        & .today, .overall {
+            background-color: lightgrey;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            border-radius: 20px;
+            gap: 10px;
+            & .tag {
+                color: grey;
+            }
+            & .workerSales {
+                & .name {
+                    font-weight: bold;
+                    font-size: 1.3rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    padding-bottom: 5px;
+                }
+                & p:not(.name) {
+                    font-weight: 500;
+                    font-size: 1.1rem;
+                    padding-left: 5px;
+                }
+                & button {
+                    display: flex;
+                    cursor: pointer;
+                    justify-self: center;
+                    padding: 10px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    border-radius: 20px;
+                    border: 1px solid black;
+                    transition: all .15s;
+                    &:hover {
+                        background-color: black;
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+    & .manageWorkers {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        gap: 10px;
+        padding-bottom: 70px;
+        & .header {
+            font-weight: bold;
+            font-size: 2.2rem;
+        }
+        & h3 {
+            margin-bottom: 10px;
+        }
+        & .workers {
+            border-radius: 15px;
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            & .worker {
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 10px;
+                border-radius: 10px;
+                border: 1px solid black;
+                & .employeeName {
+                    font-weight: bold;
+                    font-size: 1.2rem;
+                }
+                & button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    padding: 10px;
+                    cursor: pointer;
+                    border: 1px solid black;
+                    border-radius: 50px;
+                    transition: all 0.15s;
+                    position: relative;
+                    left: 20px;
+                    &:hover {
+                        opacity: 0.6;
+                    }
+                }
+                & .grantAcc {
+                    background-color: black;
+                    color: white;
+                }
+                & .delAcc {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: none;
+                    color: white;
+                    background-color: red;
+                }
+            }
+        }
+        & .actions_workers {
+            display: flex;
+            flex-direction: column;
+            margin-top: 15px;
+            gap: 5px;
+            font-weight: bold;
+            & .actions_title {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 5px;
+                padding-right: 10px;
+                & .clear {
+                    color: red;
+                    cursor: pointer;
+                    &:hover {
+                        opacity: 0.7;
+                    }
+                }
+            }
+            & .action-cont {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 20px;
+                background-color: lightgrey;
+                border-radius: 10px;
+                color: grey;
+                & .item {
+                    display: flex;
+                    gap: 10px;
+                }
+            }
+        }
+    }
+}
+.dropDown {
+    background-color: darkgrey;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}

@@ -1,0 +1,42 @@
+.menuOps {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    background-color: rgba(22, 22, 22, 0.877);
+    & .menu {
+        background-color: #3c3c3c;
+        width: 45vw;
+        height: 100%;
+        padding: 20px;
+        padding-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: large;
+        & .back {
+            margin-bottom: 20px;
+        }
+        & > div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 20px;
+            padding: 20px;
+            &:hover {
+                background-color: grey;
+            }
+            & > a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                text-decoration: none;
+                color: white;
+            }
+        }
+    }
+    /* & small {
+        position: ;
+    } */
+}
