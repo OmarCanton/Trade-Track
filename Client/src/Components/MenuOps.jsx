@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import {ArrowBackIosNewRounded} from '@mui/icons-material'
 import './Menu.css'
 import { CircularProgress } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { CiUser } from "react-icons/ci";
 import { GrUserAdmin } from "react-icons/gr";
 import { RiDashboardFill, RiHistoryFill } from "react-icons/ri";
@@ -16,8 +16,20 @@ import { motion } from 'framer-motion'
 export default function MenuOps({open, onClose, setOpenMenu}) {
     const navigate = useNavigate()
     const [loggingOut, setLoggingOut] = useState(false)
-    const { isAdmin, setIsLoggedIn } = useContext(UserCredsContext)
+    const { isAdmin, setIsLoggedIn, firstName } = useContext(UserCredsContext)
     const { theme } = useContext(themesContext)
+    const divRef = useRef(null)
+
+    const handleCloseMenuByOutClick = (event) => {
+        if(divRef.current) {
+            const clickablePos = event.clientX - divRef.current.getBoundingClientRect().width
+            if(clickablePos > 0) {
+                onClose()
+            }
+        }
+    }
+
+
     const handleLogout = async () => {
         setLoggingOut(true)
         try {
@@ -54,15 +66,20 @@ export default function MenuOps({open, onClose, setOpenMenu}) {
             className="menuOps"
             initial={{x: -10, opacity: 0}}
             animate={{x: 0, opacity: 1}}
+            onClick={handleCloseMenuByOutClick}
         >
             <div 
+                ref={divRef}
                 className='menu'
                 style={{...theme === 'dark' ? { backgroundColor: '#3c3c3c' } : { backgroundColor: '#3c3c3c'}}}
             >
-                <ArrowBackIosNewRounded 
-                    onClick={onClose}
-                    className='back'
-                />
+                <span className="backName">
+                    <ArrowBackIosNewRounded 
+                        onClick={onClose}
+                        className='back'
+                    />
+                    <div className="name">{firstName}</div>
+                </span>
                 <div
                     className="status" 
                     onClick={() => {
@@ -133,7 +150,6 @@ export default function MenuOps({open, onClose, setOpenMenu}) {
                     }
                 </div>
             </div>
-            <small>Campus Gadgets Hub. Cantons Tech, 2025</small>
         </motion.div>
     )
 }

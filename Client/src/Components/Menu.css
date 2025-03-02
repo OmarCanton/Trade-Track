@@ -14,8 +14,11 @@
         flex-direction: column;
         gap: 10px;
         font-size: large;
-        & .back {
-            margin-bottom: 20px;
+        & .backName {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         & > div {
             display: flex;
@@ -36,7 +39,15 @@
             }
         }
     }
-    /* & small {
-        position: ;
-    } */
+}
+
+@media (min-width: 425px) {
+    .menuOps .menu {
+        width: 70vw;       
+    }
+}
+@media (min-width: 375px) {
+    .menuOps .menu {
+        width: 80vw;       
+    }
 }
