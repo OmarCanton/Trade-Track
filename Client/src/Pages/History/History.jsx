@@ -113,20 +113,36 @@ export default function History() {
             </div>
             {history.length <= 0 && <Lottie style={{height: 500}} loop={true} animationData={SearchNotFound} />}
             {history.length > 0 && 
-                <ul>
-                    {history.map(hit => {
-                        const date = new Date(hit.createdAt)
-                        return (
-                            <li key={hit._id} className="historyCont">
-                                <p className="name">
-                                    <p>{hit.name}</p>
-                                    <p>{hit.category}</p>
-                                </p>
-                                <div className="right">
-                                    <p className="quantitysold">{hit.quantity}</p>
-                                    <p className="price_total">{formatAmount(hit.price)}</p>
-                                    <p className="date">{date.toDateString()}</p>
-                                    <p className="status"><RiCheckboxCircleFill size={20} color="rgb(7, 141, 252)"/> <p>{hit.status}</p></p>
+                <table>
+                    <thead>
+                        <th>Name</th>
+                        {window.innerWidth > 425 &&
+                            <th>Category</th>
+                        }
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Date</th>
+                        {window.innerWidth > 425 &&
+                            <th>Status</th>
+                        }
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        {history.map((hit, index) => {
+                            const date = new Date(hit.createdAt)
+                            return (
+                                <tr key={index}>
+                                    <td className="name">{hit.name}</td>
+                                    {window.innerWidth > 425 &&
+                                        <td className="category">{hit.category}</td>
+                                    }
+                                    <td>{hit.quantity}</td>
+                                    <td>{formatAmount(hit.price)}</td>
+                                    <td>{date.toDateString()}</td>
+                                    {window.innerWidth > 425 &&
+                                        <td className="status"><RiCheckboxCircleFill size={20} color="rgb(7, 141, 252)"/><p>{hit.status}</p></td>
+                                    }   
+                                    <td>
                                     {deletingAllHistory ?
                                         <CircularProgress />
                                         :
@@ -140,13 +156,59 @@ export default function History() {
                                             }}
                                             className="del" 
                                             htmlColor="orangered"
+                                            style={{cursor: 'pointer'}}
                                         />
                                     }
-                                </div>
-                            </li>
-                        )
-                    })}
-                </ul>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+                // <>
+                //     <div className="heading">
+                //         <p className="Names">Name</p>
+                //         <p className="Category">Category</p>
+                //         <p className="Quantity">Quantity</p>
+                //         <p className="Tot_price">Total</p>
+                //         <p className="Date">Date</p>
+                //         <p className="Status">Status</p>
+                //     </div>
+                //     <ul>
+                //         {history.map(hit => {
+                //             const date = new Date(hit.createdAt)
+                //             return (
+                //                 <li key={hit._id} className="historyCont">
+                //                     <p className="name">
+                //                         <p>{hit.name}</p>
+                //                         <p>{hit.category}</p>
+                //                     </p>
+                //                     <div className="right">
+                //                         <p className="quantitysold">{hit.quantity}</p>
+                //                         <p className="price_total">{formatAmount(hit.price)}</p>
+                //                         <p className="date">{date.toDateString()}</p>
+                //                         <p className="status"><RiCheckboxCircleFill size={20} color="rgb(7, 141, 252)"/> <p>{hit.status}</p></p>
+                //                         {deletingAllHistory ?
+                //                             <CircularProgress />
+                //                             :
+                //                             <DeleteForever 
+                //                                 onClick={() => {
+                //                                     setOpen(true)
+                //                                     setId(hit._id)
+                //                                     setName(hit.name)
+                //                                     setQUantitySold(hit.quantity)
+                //                                     setTotalPrice(hit.price)
+                //                                 }}
+                //                                 className="del" 
+                //                                 htmlColor="orangered"
+                //                             />
+                //                         }
+                //                     </div>
+                //                 </li>
+                //             )
+                //         })}
+                //     </ul>
+                // </>
             }
             <Dialog 
                 open={open} 

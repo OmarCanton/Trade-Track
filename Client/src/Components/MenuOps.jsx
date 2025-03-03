@@ -73,7 +73,7 @@ export default function MenuOps({open, onClose, setOpenMenu}) {
                 className='menu'
                 style={{...theme === 'dark' ? { backgroundColor: '#3c3c3c' } : { backgroundColor: '#3c3c3c'}}}
             >
-                <span className="backName">
+                <span className="backName" style={{...theme === 'dark'? {color: 'white'} : {color: 'white'}}}>
                     <ArrowBackIosNewRounded 
                         onClick={onClose}
                         className='back'
@@ -103,7 +103,7 @@ export default function MenuOps({open, onClose, setOpenMenu}) {
                             color="white"
                         />
                     }
-                    <p>Home</p>
+                    <p style={{...theme === 'dark'? {color: 'white'} : {color: 'white'}}}>Home</p>
                 </div>
                 <div title="Dashboard" 
                     onClick={() => { 
@@ -145,7 +145,7 @@ export default function MenuOps({open, onClose, setOpenMenu}) {
                                 fontSize={33} 
                                 cursor={'pointer'}
                             />
-                            <p>Logout</p>
+                            <p style={{...theme === 'dark'? {color: 'white'} : {color: 'white'}}}>Logout</p>
                         </>
                     }
                 </div>

@@ -159,3 +159,20 @@
         width: 95% !important;
     }
 }
+@media (max-width: 322px) {
+    .calc-wrapper .inner-wrapper {
+        width: 95% !important;
+        & .calc-cont {
+            & .name {
+                font-size: 1.2rem !important;
+                width: 100px !important;
+                border: 1px solid red;
+            }
+            & .quantityRec form {
+                & button {
+                    width: 50%;
+                }
+            }
+        }
+    }
+}

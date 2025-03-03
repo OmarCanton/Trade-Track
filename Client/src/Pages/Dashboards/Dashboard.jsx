@@ -360,7 +360,9 @@ export default function Dashboard() {
                     <RiArrowLeftLine size={30} cursor={'pointer'} onClick={() => navigate(-1)}/>
                     <span className="pageName">Dashboard</span>
                 </div>
-                <Panel />
+                {window.innerWidth > 768 &&
+                    <Panel />
+                }
                 <RefreshRounded 
                     className="refresh"
                     onClick={() => refreshScreen()}
@@ -433,42 +435,42 @@ export default function Dashboard() {
                         >
                             <div className="title">(Workers)</div>
                             <div className="sales_workers">
-                            {workerSales_today_admin.length > 0 &&
-                                <div 
-                                    className="today"
-                                    style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C'} : {backgroundColor: 'lightgrey'}}}
-                                >
-                                    <h3 className="tag">Today ({new Date().toDateString()})</h3>
-                                    {workerSales_today_admin.length > 0 && workerSales_today_admin.map((worker, index) => {
-                                        return (
-                                            <div className="workerSales" key={index}>
-                                                <p className="name"><CiUser size={25}/>{worker.firstName} &nbsp; {worker.lastName}</p>
-                                                <p className="quantitySold">Items sold: {worker.totalQuantity}</p>
-                                                <p className="amountMade">Sales Made: {formatAmount(worker.totalAmount)}</p>
-                                                <button onClick={() => fetchWorkerTodayHistory(worker._id, worker.firstName, worker.lastName)}>See history</button>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            }
-                            {workerSales_admin.length > 0 &&
-                                <div 
-                                    className="overall"
-                                    style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C'} : {backgroundColor: 'lightgrey'}}}
-                                >
-                                    <h3 className="tag">Overall Sales Made</h3>
-                                    {workerSales_admin.length > 0 && workerSales_admin.map((worker, index) => {
-                                        return (
-                                            <div className="workerSales" key={index}>
-                                                <p className="name"><CiUser size={25}/>{worker.firstName} &nbsp; {worker.lastName}</p>
-                                                <p className="quantitySold">Items Sold: {worker.totalQuantity}</p>
-                                                <p className="amountMade">Sales Made: {formatAmount(worker.totalAmount)}</p>
-                                                <button onClick={() => fetchWorkerHistory(worker._id, worker.firstName, worker.lastName)}>See history</button>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            }
+                                {workerSales_today_admin.length > 0 &&
+                                    <div 
+                                        className="today"
+                                        style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C'} : {backgroundColor: 'lightgrey'}}}
+                                    >
+                                        <h3 className="tag">Today ({new Date().toDateString()})</h3>
+                                        {workerSales_today_admin.length > 0 && workerSales_today_admin.map((worker, index) => {
+                                            return (
+                                                <div className="workerSales" key={index}>
+                                                    <p className="name"><CiUser size={25}/>{worker.firstName} &nbsp; {worker.lastName}</p>
+                                                    <p className="quantitySold">Items sold: {worker.totalQuantity}</p>
+                                                    <p className="amountMade">Sales Made: {formatAmount(worker.totalAmount)}</p>
+                                                    <button onClick={() => fetchWorkerTodayHistory(worker._id, worker.firstName, worker.lastName)}>See history</button>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                }
+                                {workerSales_admin.length > 0 &&
+                                    <div 
+                                        className="overall"
+                                        style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C'} : {backgroundColor: 'lightgrey'}}}
+                                    >
+                                        <h3 className="tag">Overall Sales Made</h3>
+                                        {workerSales_admin.length > 0 && workerSales_admin.map((worker, index) => {
+                                            return (
+                                                <div className="workerSales" key={index}>
+                                                    <p className="name"><CiUser size={25}/>{worker.firstName} &nbsp; {worker.lastName}</p>
+                                                    <p className="quantitySold">Items Sold: {worker.totalQuantity}</p>
+                                                    <p className="amountMade">Sales Made: {formatAmount(worker.totalAmount)}</p>
+                                                    <button onClick={() => fetchWorkerHistory(worker._id, worker.firstName, worker.lastName)}>See history</button>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                }
                             </div>
                         </motion.span>
                     }
@@ -719,7 +721,7 @@ export default function Dashboard() {
                                             style={{...theme === 'dark' ? {border: '1px solid grey'}: {border: '1px solid black'}}}
                                         >
                                             <CiUser size={25}/>
-                                            <p className="employeeName">{employee.firstName} {employee.lastName}</p>
+                                            <p className="employeeName">{employee.firstName}</p>
                                             {!employee.canAccess ?
                                                 <button className="grantAcc" onClick={() => grantAccess(employee._id)}>
                                                     {grantingAcc === employee._id ?

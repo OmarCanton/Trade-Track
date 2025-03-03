@@ -52,7 +52,6 @@
                 justify-content: center;
                 gap: 10px;
                 & button {
-                    margin-top: 10px;
                     width: 30%;
                     padding: 10px;
                     cursor: pointer;

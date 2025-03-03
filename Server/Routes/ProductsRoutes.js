@@ -179,7 +179,7 @@ router.get('/todaySales/:userId', async (req, res) => {
         }
     } catch(err) {
         console.log(err)
-        rs.json({success: false, error: err})
+        res.json({success: false, error: err})
     }
 })
 router.get('/getWorkersHistory/:adminUserId', async (req, res) => {

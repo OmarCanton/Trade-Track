@@ -10,6 +10,11 @@
         padding-left: 20px;
         padding-right: 20px;
         position: relative;
+        & div:not(.left, .refresh) {
+            position: relative;
+            right: 4%;
+
+        }
         & .left {
             display: flex;
             align-items: center;
@@ -35,10 +40,6 @@
             & .sales {
                 & .sales-body {
                     flex-wrap: wrap;
-                    /* padding: 10px;
-                    border-radius: 20px;
-                    background-color: #636262;
-                    box-shadow: 3px 5px 10px -2px black; */
                 }
             }
         }
@@ -464,6 +465,7 @@
                 background-color: lightgrey;
                 border-radius: 10px;
                 color: grey;
+                gap: 10px;
                 & .item {
                     display: flex;
                     gap: 10px;
@@ -482,4 +484,217 @@
 .header {
     display: flex;
     align-items: center;
+}
+
+@media (max-width:  1024px) {
+    .dashoard-wrapper {
+        & .allSales {
+            flex-direction: column;
+            & .left-sales {
+                width: 100%;
+            }
+            & .right-analytics {
+                width: 100%;
+                position: relative;
+                & .analytics-header {
+                    justify-content: left;
+                    margin-bottom: 10px;
+                }
+                & .user-bars {
+                    width: 49%;
+                }
+                & .workers-bars {
+                    width: 47.5%;
+                    position: absolute;
+                    top: -45%;
+                    right: 20px;
+                }
+            }
+        }
+        & .manageShopItems {
+            margin-top: 20px;
+        }
+    }
+}
+@media (max-width:  768px) {
+    .dashoard-wrapper {
+        & .allSales {
+            flex-direction: column;
+            & .left-sales {
+                width: 100%;
+            }
+            & .right-analytics {
+                width: 100%;
+                position: relative;
+                & .analytics-header {
+                    justify-content: left;
+                    margin-bottom: 10px;
+                }
+                & .user-bars {
+                    width: 70%;
+                }
+                & .workers-bars {
+                    width: 70%;
+                    position: relative;
+                    top: 0 !important;
+                    right: 0 !important;
+                    margin-top: 60px !important;
+                }
+            }
+        }
+        & .manageShopItems {
+            margin-top: 20px;
+        }
+        & .manageWorkers {
+            & .actions_workers {
+                & .action-cont {
+                    font-size: 0.8rem;
+                }   
+            }
+        }
+    }
+}
+@media (max-width: 600px) {
+    .dashoard-wrapper {
+        & .allSales {
+            flex-direction: column;
+            & .left-sales {
+                width: 100%;
+            }
+            & .right-analytics {
+                & .user-bars {
+                    width: 100%;
+                }
+                & .workers-bars {
+                    width: 100%;
+                }
+            }
+        }
+        & .manageShopItems {
+            & .shop-management-body {
+                & .itemsAlt {
+                    flex-direction: column;
+                }
+            }
+        }
+    }
+}
+@media (max-width: 545px) {
+    .dashoard-wrapper {
+        & .allSales {
+            & .left-sales {
+                & .sales {
+                    & .sales-body {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        grid-template-rows: repeat(2, 1fr);
+                        & > div {
+                            height: 95%;
+                        }
+                    }
+                }
+                & .workers_sales_today_overall {
+                    & .sales_workers {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        & > div {
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@media (max-width: 500px) {
+    .dashoard-wrapper {
+        & .allSales {
+            & .left-sales {
+                & .sales {
+                    & .sales-body {
+                        & div {
+                            & h3 {
+                                font-size: medium;
+                            }
+                            & div {
+                                font-size: 1.7rem;
+                            }
+                        }
+                    }
+                }
+                & .workers_sales_today_overall {
+                    & .sales_workers {
+                        & > div {
+                            & .tag {
+                                font-size: 1rem;
+                            }
+                            & > div {
+                                & .name {
+                                    font-size: 1.2rem;
+                                }
+                                & .quantitySold, .amountMade {
+                                    font-size: 1rem;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            & .right-analytics {
+                & .user-bars, .workers-bars {
+                    & .today_sales, .today_items_sold {
+                        & .text1 {
+                            font-size: 0.9rem;
+                        }
+                    }
+                    & .today_items_sold {
+                        & .text2 {
+                            font-size: 0.9rem;
+                        }
+                    }
+                }
+                & .workers-bars {
+                    margin-top: 24%;
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    row-gap: 70px;
+                    justify-items: center;
+                    max-height: 100%;
+                    width: 100%;
+                    & .workerPrgBar {
+                        & .text3 {
+                            font-size: 0.9rem;
+                        }
+                    }
+                }
+            }
+
+        }
+        & .manageShopItems {
+            & .shop-management-body {
+                & .totals {
+                    & > div {
+                        & h3 {
+                            font-size: medium;
+                        }
+                        & div {
+                            font-size: 1.5rem !important;
+                        }
+                    }
+                }
+            }
+        }
+        & .manageWorkers {
+            & .workers {
+                & .worker {
+                    gap: 5px;
+                    & .grantAcc, .remAccess, .delAcc {
+                        font-size: 0.65rem;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
 }

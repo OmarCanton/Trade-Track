@@ -13,7 +13,7 @@ export default function WorkerHistoryPage() {
     
     return (
         <div 
-            className="history-wrapper"
+            className="worker-history-wrapper"
             style={{...themeStyles.style}}
         >
             <div className="header">

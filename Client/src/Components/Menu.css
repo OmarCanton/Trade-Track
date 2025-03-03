@@ -41,6 +41,11 @@
     }
 }
 
+@media (min-width: 768px) {
+    .menuOps .menu {
+        width: 50vw !important;       
+    }
+}
 @media (min-width: 425px) {
     .menuOps .menu {
         width: 70vw;       
@@ -49,5 +54,10 @@
 @media (min-width: 375px) {
     .menuOps .menu {
         width: 80vw;       
+    }
+}
+@media (min-width: 320px) {
+    .menuOps .menu {
+        width: 100vw;       
     }
 }

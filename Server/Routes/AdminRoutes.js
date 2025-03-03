@@ -10,7 +10,7 @@ router.get('/getAllEmployees/:userId', async (req, res) => {
             res.json({success: true, users})
         }
     } catch(err) {
-        consoel.log(err)
+        console.log(err)
         res.json({error: err})
     }
 })
