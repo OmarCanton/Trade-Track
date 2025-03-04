@@ -321,5 +321,7 @@
 @media (max-width: 425px) {
     .outOfStock {
         font-size: small;
+        padding-left: 5px;
+        padding-right: 5px;
     }
 }
