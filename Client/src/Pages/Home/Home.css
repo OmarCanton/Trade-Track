@@ -3,6 +3,7 @@
     width: 100vw;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
     & .header {
         display: flex;
         align-items: center;
@@ -148,7 +149,7 @@
                 width: 100%;
                 padding: 10px;
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                /* max-width: 100%; */
+                max-width: 100%;
                 overflow: hidden;
                 & .loading {
                     position: absolute;
