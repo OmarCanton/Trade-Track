@@ -26,7 +26,7 @@ connectToDB()
 app.use(express.json())
 app.use(cookieParser())
 
-app.set('trust proxy', 1)
+// app.set('trust proxy', 1)
 
 //setup cookie
 app.use(session({
@@ -36,7 +36,7 @@ app.use(session({
     cookie: {
         httpOnly: true, 
         secure: true,
-        maxAge: 1000 * 60 * 60 * 24 * 365 * 10 /* Store session for two years */
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 10 /* Store session for 10 years */
     },
     store: MongoStore.create({
         client: mongoose.connection.getClient()
