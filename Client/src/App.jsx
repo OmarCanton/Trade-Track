@@ -23,7 +23,7 @@ export default function App() {
     return localStorage.getItem('isLoggedIn') || false
   })
   const [haveAccess, setHaveAccess] = useState(() => {
-    localStorage.getItem('access_utility') || true
+    localStorage.getItem('access_utility') || false
   })
   const [isAdmin, setIsAdmin] = useState(false)
   const [history, setHistory] = useState([])
@@ -96,7 +96,7 @@ export default function App() {
         }}>
           <AnimatePresence mode='wait'>
             <Routes location={location} key={location.pathname}>
-              <Route index path='/' element={isLoggedIn ? (haveAccess ? <Home /> : <ContactAdmin />)  : <SignIn />} />
+              <Route index path='/' element={isLoggedIn ? <Home /> : <SignIn />} />
               <Route path='auth/register' element={<Register />}/>
               <Route path='auth/signin' element={<SignIn />}/>
               <Route path='verify-otp' element={<VerifyOTP />} />
@@ -104,6 +104,7 @@ export default function App() {
               <Route path='dashboard' element={<Dashboard />} />
               <Route path='history' element={<History />} />
               <Route path='worker_history' element={<WorkerHistoryPage />} />
+              <Route path='contact_admin' element={<ContactAdmin />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </AnimatePresence>
