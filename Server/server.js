@@ -16,6 +16,7 @@ const app = express()
 //setup cors
 app.use(cors({
     origin: process.env.FRONT_END_URL,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
 }))
 
@@ -26,7 +27,7 @@ connectToDB()
 app.use(express.json())
 app.use(cookieParser())
 
-// app.set('trust proxy', 1)
+app.set('trust proxy', 1)
 
 //setup cookie
 app.use(session({
