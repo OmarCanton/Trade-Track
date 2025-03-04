@@ -22,9 +22,9 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return localStorage.getItem('isLoggedIn') || false
   })
-  const [haveAccess, setHaveAccess] = useState(/*() => {
-    localStorage.getItem('access_utility') || false
-  }*/ true)
+  const [haveAccess, setHaveAccess] = useState(() => {
+    localStorage.getItem('access_utility') || true
+  })
   const [isAdmin, setIsAdmin] = useState(false)
   const [history, setHistory] = useState([])
   const [theme, setTheme] = useState(() => {
