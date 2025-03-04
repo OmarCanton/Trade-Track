@@ -127,7 +127,7 @@
         }
         & .recentSelected {
             & .recentSelectedProducts {
-                place-items: center;
+                justify-items: center;
             }
         }
         & .prodsCatalogue, .recentSelected {
