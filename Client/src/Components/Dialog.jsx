@@ -4,8 +4,9 @@ import './Dialog.css'
 import { motion } from 'framer-motion'
 import { useContext } from 'react'
 import { themesContext, UserCredsContext } from '../Context/UserCredsContext'
+import { CircularProgress } from '@mui/material'
 
-export default function Dialog({delHistory, setReason, open, onClose, isAllHistoryDel}) {
+export default function Dialog({delHistory, setReason, open, onClose, isAllHistoryDel, deleting, deletingAll}) {
     const { isAdmin } = useContext(UserCredsContext)
     const { themeStyles } = useContext(themesContext)
         
@@ -30,7 +31,13 @@ export default function Dialog({delHistory, setReason, open, onClose, isAllHisto
                         />
                     }
                     <div>
-                        <button>Delete</button>
+                        <button>
+                            {(deleting || deletingAll) ?
+                                <CircularProgress style={{width: 25, height: 25, color: 'white'}}/>
+                                :
+                                'Delete'
+                            }
+                        </button>
                         {isAllHistoryDel &&
                             <button className='closebtn' onClick={onClose}>Cancel</button>
                         }
@@ -46,5 +53,7 @@ Dialog.propTypes = {
     open: PropTypes.any,
     onClose: PropTypes.any,
     setReason: PropTypes.any,
-    isAllHistoryDel: PropTypes.any
+    isAllHistoryDel: PropTypes.any,
+    deleting: PropTypes.any,
+    deletingAll: PropTypes.any
 }

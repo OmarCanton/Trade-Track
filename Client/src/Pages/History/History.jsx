@@ -26,6 +26,8 @@ export default function History() {
     const [reason, setReason] = useState('')
     const [deletingHistory, setDeletingHistory] = useState(false)
     const [deletingAllHistory, setDeletingAllHistory] = useState(false)
+    const [deleting, setDeleting] = useState(false)
+    const [deletingAll, setDeletingAll] = useState(false)
 
     useEffect(() => {
         const fetchHistory = async () => {
@@ -38,6 +40,7 @@ export default function History() {
     }, [userId, deletingHistory, deletingAllHistory])
     const deleteHistory = async (e) => {
         e.preventDefault()
+        setDeleting(true)
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteHistory`, {
                 userId,
@@ -50,17 +53,21 @@ export default function History() {
             if(response.data.success) {
                 toast.success(response.data.message)
                 setDeletingHistory(prevState => !prevState)
+                setDeleting(false)
                 setOpen(false)
             }
             if(response.data.success === false) {
                 toast.error(response.data.error)
+                setDeleting(false)
             }
         } catch(err) {
             console.log(err)
+            setDeleting(false)
         }
     }
     const deleteAllHistory = async (e) => {
         e.preventDefault()
+        setDeletingAll(true)
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteAllHistory`, {
                 userId
@@ -68,13 +75,16 @@ export default function History() {
             if(response.data.success) {
                 toast.success(response.data.message)
                 setDeletingAllHistory(prevState => !prevState)
+                setDeletingAll(false)
                 setOpen_delAll(false)
             }
             if(response.data.success === false) {
                 toast.error(response.data.error)
+                setDeletingAll(false)
             }
         } catch(err) {
             console.log(err)
+            setDeletingAll(false)
         }
     }
     const formatAmount = (amount) => {
@@ -165,50 +175,6 @@ export default function History() {
                         })}
                     </tbody>
                 </table>
-                // <>
-                //     <div className="heading">
-                //         <p className="Names">Name</p>
-                //         <p className="Category">Category</p>
-                //         <p className="Quantity">Quantity</p>
-                //         <p className="Tot_price">Total</p>
-                //         <p className="Date">Date</p>
-                //         <p className="Status">Status</p>
-                //     </div>
-                //     <ul>
-                //         {history.map(hit => {
-                //             const date = new Date(hit.createdAt)
-                //             return (
-                //                 <li key={hit._id} className="historyCont">
-                //                     <p className="name">
-                //                         <p>{hit.name}</p>
-                //                         <p>{hit.category}</p>
-                //                     </p>
-                //                     <div className="right">
-                //                         <p className="quantitysold">{hit.quantity}</p>
-                //                         <p className="price_total">{formatAmount(hit.price)}</p>
-                //                         <p className="date">{date.toDateString()}</p>
-                //                         <p className="status"><RiCheckboxCircleFill size={20} color="rgb(7, 141, 252)"/> <p>{hit.status}</p></p>
-                //                         {deletingAllHistory ?
-                //                             <CircularProgress />
-                //                             :
-                //                             <DeleteForever 
-                //                                 onClick={() => {
-                //                                     setOpen(true)
-                //                                     setId(hit._id)
-                //                                     setName(hit.name)
-                //                                     setQUantitySold(hit.quantity)
-                //                                     setTotalPrice(hit.price)
-                //                                 }}
-                //                                 className="del" 
-                //                                 htmlColor="orangered"
-                //                             />
-                //                         }
-                //                     </div>
-                //                 </li>
-                //             )
-                //         })}
-                //     </ul>
-                // </>
             }
             <Dialog 
                 open={open} 
@@ -216,6 +182,7 @@ export default function History() {
                 setReason={setReason}
                 onClose={() => setOpen(false)}
                 isAllHistoryDel={false}
+                deleting={deleting}
             />
             <Dialog 
                 open={open_delAll} 
@@ -223,6 +190,7 @@ export default function History() {
                 setReason={setReason}
                 onClose={() => setOpen_delAll(false)}
                 isAllHistoryDel={true}
+                deletingAll={deletingAll}
             />
         </div>
     )
