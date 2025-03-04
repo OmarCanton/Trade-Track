@@ -287,7 +287,6 @@
         }
     }
 }
-
 @keyframes refresh {
     from {
         transform: rotate(0);
@@ -308,7 +307,6 @@
         }
     }
 }
-
 @media (max-width: 425px) {
     .outOfStock {
         font-size: small;
