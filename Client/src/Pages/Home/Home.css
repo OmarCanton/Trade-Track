@@ -292,7 +292,7 @@
     }
 }
 
-@media (min-width: 1300px) {
+/* @media (min-width: 1300px) {
     .home-wrapper .productsContainer, .recentSelectedProducts {
         grid-template-columns: repeat(5, 250px);
     }      
@@ -350,7 +350,7 @@
         grid-template-columns: repeat(2, 150px);
         gap: 0 !important;
     }
-}
+} */
 @media (max-width: 425px) {
     .outOfStock {
         font-size: small;
