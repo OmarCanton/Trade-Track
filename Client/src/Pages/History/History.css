@@ -53,6 +53,7 @@
                 }
                 & .name {
                     font-weight: bold;
+                    word-break: break-all;
                 }
                 & .category {
                     color: darkgrey;
@@ -60,48 +61,6 @@
             }
         }
     }
-    /* & ul {
-        & li:first-child {
-            border-top: 1px solid grey;
-        }
-        & li {
-            border-bottom: 1px solid grey;
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            justify-content: space-between;
-            font-weight: bold;
-            & .name {
-                font-weight: bold;
-                font-size: large;
-                display: flex;
-                gap: 40px;
-                & p:last-child {
-                    color: grey;
-                    font-size: medium;
-                }
-            }
-            & .right {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 50px;
-                & .date {
-                    color: grey;
-                }
-                & .status {
-                    color: rgb(93, 157, 209);
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                }
-                & .del:hover {
-                    cursor: pointer;
-                    opacity: 0.5;
-                }
-            }
-        }
-    } */
 }
 @media (max-width: 500px) {
     .history-wrapper table {
