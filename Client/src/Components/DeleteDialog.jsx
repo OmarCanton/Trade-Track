@@ -44,7 +44,7 @@ export default function DeleteDialog({id, name, setDelPrd, open, setOpen, onClos
                     <div className="delBtns">
                         <button>
                             {deleting ?
-                                <CircularProgress />
+                                <CircularProgress style={{width: 25, height: 25, color: 'white'}}/>
                                 :
                                 'Yes'
                             }

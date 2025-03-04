@@ -54,7 +54,7 @@ export default function Calculator({isOpen, onClose, name, quantity, setQuantity
                             />
                             <button>
                                 {recording ?
-                                    <CircularProgress /> 
+                                    <CircularProgress style={{width: 25, height: 25, color: 'white'}}/> 
                                     : 
                                     'Record'
                                 }

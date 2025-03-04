@@ -31,7 +31,7 @@ export default function Updater({open, onClose, func, setUpdateQuantity, updatin
                     <div className="cancelOK">
                         <button>
                             {updatingQuantity ? 
-                                <CircularProgress />
+                                <CircularProgress style={{width: 25, height: 25, color: 'white'}}/>
                                 :
                                 'Add'
                             }
