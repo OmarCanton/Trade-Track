@@ -4,8 +4,9 @@ import './Calculator.css'
 import { RiCheckboxCircleFill, RiCloseCircleFill, RiCloseLine } from 'react-icons/ri'
 import { motion } from 'framer-motion'
 import { themesContext } from '../Context/UserCredsContext'
+import { CircularProgress } from '@mui/material'
 
-export default function Calculator({isOpen, onClose, name, quantity, setQuantity_sold, record}) {
+export default function Calculator({isOpen, onClose, name, quantity, setQuantity_sold, record, recording}) {
     const { theme } = useContext(themesContext)
     if(!isOpen) return null
     return (
@@ -51,7 +52,13 @@ export default function Calculator({isOpen, onClose, name, quantity, setQuantity
                                 defaultValue={1} 
                                 min={1} 
                             />
-                            <button>Record</button>
+                            <button>
+                                {recording ?
+                                    <CircularProgress /> 
+                                    : 
+                                    'Record'
+                                }
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -65,5 +72,6 @@ Calculator.propTypes = {
     name: PropTypes.string,
     quantity: PropTypes.any,
     setQuantity_sold: PropTypes.any,
-    record: PropTypes.func
+    record: PropTypes.func,
+    recording: PropTypes.any
 }

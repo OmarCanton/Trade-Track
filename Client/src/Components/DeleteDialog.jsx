@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { RiCloseCircleFill } from 'react-icons/ri'
 import './Dialog.css'
@@ -6,11 +6,14 @@ import { motion } from 'framer-motion'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import { themesContext } from '../Context/UserCredsContext'
+import { CircularProgress } from '@mui/material'
 
 export default function DeleteDialog({id, name, setDelPrd, open, setOpen, onClose}) {
     const { themeStyles } = useContext(themesContext)
+    const [deleting, setDeleting] = useState(false)
     const deleteProduct = async (e) => {
         e.preventDefault()
+        setDeleting(true)
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteProduct`, {
                 id
@@ -18,10 +21,12 @@ export default function DeleteDialog({id, name, setDelPrd, open, setOpen, onClos
             if(response.data.success) {
                 toast.success(response.data.message)
                 setDelPrd(prevState => !prevState)
+                setDeleting(false)
                 setOpen(false)
             }
         } catch(err) {
             console.log(err)
+            setDeleting(false)
         }
     }
     if(!open) return null
@@ -37,7 +42,13 @@ export default function DeleteDialog({id, name, setDelPrd, open, setOpen, onClos
                 <form onSubmit={(e) => deleteProduct(e, id)}>
                     <label>Are you sure you want to delete {name} from the shop?</label>
                     <div className="delBtns">
-                        <button>Yes</button>
+                        <button>
+                            {deleting ?
+                                <CircularProgress />
+                                :
+                                'Yes'
+                            }
+                        </button>
                         <button className='cancel' onClick={onClose}>Cancel</button>
                     </div>
                 </form>

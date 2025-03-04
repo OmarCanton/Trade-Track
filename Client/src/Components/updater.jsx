@@ -4,8 +4,9 @@ import { motion } from 'framer-motion'
 import { useContext } from 'react'
 import { themesContext } from '../Context/UserCredsContext'
 import './Updater.css'
+import { CircularProgress } from '@mui/material'
 
-export default function Updater({open, onClose, func, setUpdateQuantity}) {
+export default function Updater({open, onClose, func, setUpdateQuantity, updatingQuantity}) {
     const { themeStyles } = useContext(themesContext)
 
     if(!open) return null
@@ -28,7 +29,13 @@ export default function Updater({open, onClose, func, setUpdateQuantity}) {
                         />
                     </div>
                     <div className="cancelOK">
-                        <button>Add</button>
+                        <button>
+                            {updatingQuantity ? 
+                                <CircularProgress />
+                                :
+                                'Add'
+                            }
+                        </button>
                         <button onClick={onClose} className='closebtn'>Cancel</button>
                     </div>
                 </form>
@@ -41,5 +48,6 @@ Updater.propTypes ={
     open: PropTypes.any,
     onClose: PropTypes.any,
     func: PropTypes.func,
-    setUpdateQuantity: PropTypes.any
+    setUpdateQuantity: PropTypes.any,
+    updatingQuantity: PropTypes.any
 }

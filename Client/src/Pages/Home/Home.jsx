@@ -80,6 +80,8 @@ export default function Home() {
     const [itemsUpdate_quantity, setItemsUpdate_quantity] = useState()
     const [itemUpdated, setItemUpdated] = useState(false)
     const [openMenu, setOpenMenu] = useState(false)
+    const [recording, setRecording] = useState(false)
+    const [updatingQuantity, setUpdatingQuantity] = useState(false)
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -101,6 +103,7 @@ export default function Home() {
 
     const record = async (e) => {
         e.preventDefault()
+        setRecording(true)
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/record`, { 
                 userId, 
@@ -113,12 +116,15 @@ export default function Home() {
                 toast.success(response.data.message)
                 setOpen(prevState => !prevState)
                 setRecord_made(prevState => !prevState)
+                setRecording(false)
             }
             if(response.data.success === false) {
                 toast.error(response.data.error)
+                setRecording(false)
             }
         } catch(err) {
             console.log(err)
+            setRecording(false)
         }
     }
 
@@ -150,6 +156,7 @@ export default function Home() {
 
     const updateItem = async (e) => {
         e.preventDefault()
+        setUpdatingQuantity(true)
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/updateProduct`, {
                 itemsUpdate_id,
@@ -159,12 +166,15 @@ export default function Home() {
                 toast.success(response.data.message)
                 setOpenUpdater(false)
                 setItemUpdated(prevState => !prevState)
+                setUpdatingQuantity(false)
             }
             if(response.data.success === false) {
                 toast.error(response.data.message)
+                setUpdatingQuantity(false)
             }
         } catch(err) {
             console.log(err)
+            setUpdatingQuantity(false)
         }
     }
 
@@ -499,6 +509,7 @@ export default function Home() {
                 quantity={quantity}
                 setQuantity_sold={setQuantity_sold}
                 record={record}
+                recording={recording}
             />
             <DeleteDialog 
                 id={prdIdDialog}
@@ -514,6 +525,7 @@ export default function Home() {
                 onClose={() => setOpenUpdater(false)}
                 func={updateItem}
                 setUpdateQuantity={setItemsUpdate_quantity}
+                updatingQuantity={updatingQuantity}
             />
             <MenuOps
                 open={openMenu} 
