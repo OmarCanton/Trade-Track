@@ -82,7 +82,6 @@ export default function Home() {
     const [openMenu, setOpenMenu] = useState(false)
 
     useEffect(() => {
-        alert(window.innerWidth)
         const fetchCategories = async () => {
             const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getAllCategory`)
             setCategories(response.data.categories)
