@@ -180,7 +180,7 @@ export default function Home() {
         }
     }
 
-    if(!haveAccess) return navigate('/contact_admin')
+    if(!haveAccess) navigate('/contact_admin')
 
     return (
         <div 
