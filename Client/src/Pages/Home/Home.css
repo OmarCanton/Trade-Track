@@ -245,6 +245,7 @@
                                 right: 0;
                                 padding: 10px;
                                 background-color: grey;
+                                border-bottom-left-radius: 5px;
                             }
                         }
                     }
@@ -313,9 +314,14 @@
             & .prodsCatalogue, .recentSelected {
                 & .productsContainer, .recentSelectedProducts {
                     grid-template-columns: repeat(2, 190px);
+                    gap: 0;
                 }
             }
         }
+    }
+    .outOfStock {
+        padding-left: 3px !important;
+        padding-right: 3px !important;
     }
 }
 @media (max-width: 425px) {
