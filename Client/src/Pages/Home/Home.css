@@ -292,7 +292,7 @@
     }
 }
 
-/* @media (min-width: 1300px) {
+@media (min-width: 1300px) {
     .home-wrapper .productsContainer, .recentSelectedProducts {
         grid-template-columns: repeat(5, 250px);
     }      
@@ -340,9 +340,15 @@
     }
 }
 @media (min-width: 360px) and (max-width: 425px) {
-    .home-wrapper .productsContainer, .recentSelectedProducts {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0 !important;
+    .home-wrapper {
+        & .main {
+            & .prodsCatalogue, .recentSelected {
+                & .productsContainer, .recentSelectedProducts {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 0 !important;
+                }
+            }
+        }
     }
 }
 @media (min-width: 320px) and (max-width: 359px) {
@@ -350,7 +356,7 @@
         grid-template-columns: repeat(2, 150px);
         gap: 0 !important;
     }
-} */
+}
 @media (max-width: 425px) {
     .outOfStock {
         font-size: small;
