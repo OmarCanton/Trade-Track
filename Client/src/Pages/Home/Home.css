@@ -125,11 +125,6 @@
             padding-top: 20px;
             border-bottom: 1px solid lightgrey;
         }
-        & .recentSelected {
-            & .recentSelectedProducts {
-                justify-items: center;
-            }
-        }
         & .prodsCatalogue, .recentSelected {
             display: flex;
             flex-direction: column;
