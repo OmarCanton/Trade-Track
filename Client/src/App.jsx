@@ -10,7 +10,7 @@ import axios from 'axios'
 import Home from './Pages/Home/Home'
 import PageNotFound from './Pages/PageNotFound/PageNotFound'
 import ResetPassword from './Pages/ResetPassword/ResetPasssword'
-import ContactAdmin from './Pages/ContactAdmin/ContactAdmin'
+// import ContactAdmin from './Pages/ContactAdmin/ContactAdmin'
 import Dashboard from './Pages/Dashboards/Dashboard'
 import History from './Pages/History/History'
 import WorkerHistoryPage from './Pages/WorkerHistoryPage/WorkerHistoryPage'
@@ -94,7 +94,7 @@ export default function App() {
         }}>
           <AnimatePresence mode='wait'>
             <Routes location={location} key={location.pathname}>
-              <Route index path='/' element={isLoggedIn ? (haveAccess ? <Home /> : <ContactAdmin />)  : <SignIn />} />
+              <Route index path='/' element={isLoggedIn ? <Home /> : <SignIn />} />
               <Route path='auth/register' element={<Register />}/>
               <Route path='auth/signin' element={<SignIn />}/>
               <Route path='verify-otp' element={<VerifyOTP />} />

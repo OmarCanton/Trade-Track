@@ -39,9 +39,12 @@ import ThemeChangeAnime from "../../Components/ThemeChangeAnime";
 import Updater from "../../Components/updater";
 import {MenuRounded}  from '@mui/icons-material'
 import MenuOps from "../../Components/MenuOps";
+import ContactAdmin from "../ContactAdmin/ContactAdmin";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-    const { userId, isAdmin, firstName, lastName } = useContext(UserCredsContext)
+    const navigate = useNavigate()
+    const { userId, isAdmin, firstName, lastName, haveAccess } = useContext(UserCredsContext)
     const { 
         theme, 
         changeTheme, 
@@ -82,6 +85,14 @@ export default function Home() {
     const [openMenu, setOpenMenu] = useState(false)
     const [recording, setRecording] = useState(false)
     const [updatingQuantity, setUpdatingQuantity] = useState(false)
+
+    useEffect(() => {
+        if(haveAccess) {
+            <ContactAdmin />
+        } else {
+            navigate('/')
+        }
+    }, [haveAccess, navigate])
 
     useEffect(() => {
         const fetchCategories = async () => {
