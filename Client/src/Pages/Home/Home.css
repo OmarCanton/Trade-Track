@@ -156,8 +156,11 @@
                 overflow: hidden;
                 & .loading {
                     position: absolute;
-                    left: 50%;
-                    top: 40%;
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
                 & .noItem {
                     text-align: center;
