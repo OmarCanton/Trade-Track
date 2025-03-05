@@ -52,6 +52,9 @@ export default function Dashboard() {
     const nameRef = useRef()
     const quantityRef = useRef()
     const priceRef = useRef()
+    const [addingPrd, setAddingPrd] = useState(false)
+    const [addingCat, setAddingCat] = useState(false)
+    const [deletingCat, setDeletingCat] = useState(false)
 
     useEffect(() => {
         if(window.scrollY === 0) {
@@ -231,6 +234,7 @@ export default function Dashboard() {
     }
     const addProduct = async (e) => {
         e.preventDefault()
+        setAddingPrd(true)
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/addProduct`, productData)
             if(response.data.success) {
@@ -242,17 +246,21 @@ export default function Dashboard() {
                 nameRef.current.value = ''
                 quantityRef.current.value = ''
                 priceRef.current.value = ''
+                setAddingPrd(false)
             }
             if(response.data.success === false) {
                 toast.error(response.data.error)
+                setAddingPrd(false)
             }
         } catch (err) {
             console.log(err)
+            setAddingPrd(false)
         }
     }
 
     const addCategory = async (e) => {
         e.preventDefault()
+        setAddingCat(true)
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/newCategory`, {cat_name})
             if(response.data.success) {
@@ -260,18 +268,22 @@ export default function Dashboard() {
                 setCat_name('')
                 catInputRef.current.value = ''
                 setCategoryAltered(prevState => !prevState)
+                setAddingCat(false)
             }
             if(response.data.success === false) {
                 toast.error(response.data.error)
+                setAddingCat(false)
             }
         } catch(err) {
             console.log(err)
             setCat_name('')
             catInputRef.current.value = ''
+            setAddingCat(false)
         }
     }
     const deleteCategory = async (e) => {
         e.preventDefault()
+        setDeletingCat(true)
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteCategory`, {cat_name_del})
             if(response.data.success) {
@@ -279,14 +291,17 @@ export default function Dashboard() {
                 setCat_name_del('')
                 delCatInputRef.current.value = ''
                 setCategoryAltered(prevState => !prevState)
+                setDeletingCat(false)
             }
             if(response.data.success === false) {
                 toast.error(response.data.error)
+                setDeletingCat(false)
             }
         } catch(err) {
             console.log(err)
             setCat_name_del('')
             delCatInputRef.current.value = ''
+            setDeletingCat(false)
         }
     }
 
@@ -655,7 +670,14 @@ export default function Dashboard() {
                                             onChange={(e) => setPrice(e.target.value)}
                                             style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C', color: 'white', border: '1px solid grey'} : {backgroundColor: 'lightgrey'}}}
                                         />
-                                        <button>Add</button>
+                                        <button>
+                                            {
+                                                addingPrd?
+                                                <CircularProgress style={{color: 'white', width: 25, height: 25}} />
+                                                :
+                                                'Add'
+                                            }
+                                        </button>
                                     </form>
                                 </div>
                                 <div 
@@ -672,7 +694,13 @@ export default function Dashboard() {
                                                 onChange={(e) => setCat_name(e.target.value)}
                                                 style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C', color: 'white', border: '1px solid grey'} : {backgroundColor: 'lightgrey'}}}
                                             />
-                                            <button className="addcat">Add</button>
+                                            <button className="addcat">
+                                                {addingCat?
+                                                    <CircularProgress style={{color: 'white', width: 25, height: 25}} />
+                                                    :
+                                                    'Add'
+                                                }
+                                            </button>
                                         </form>
                                     </div>
                                     <div className="delCategory">
@@ -685,7 +713,13 @@ export default function Dashboard() {
                                                 onChange={(e) => setCat_name_del(e.target.value)}
                                                 style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C', color: 'white', border: '1px solid grey'} : {backgroundColor: 'lightgrey'}}}
                                             />
-                                            <button className="delBtn">Delete</button>
+                                            <button className="delBtn">
+                                                {deletingCat? 
+                                                    <CircularProgress style={{color: 'white', width: 25, height: 25}} />
+                                                    :
+                                                    'Delete'
+                                                }
+                                            </button>
                                         </form>
                                     </div>
                                 </div>
@@ -731,7 +765,7 @@ export default function Dashboard() {
                                             {!employee.canAccess ?
                                                 <button className="grantAcc" onClick={() => grantAccess(employee._id)}>
                                                     {grantingAcc === employee._id ?
-                                                        <CircularProgress />
+                                                        <CircularProgress style={{color: 'white', width: 25, height: 25}}/>
                                                         :
                                                         <>
                                                             <RiCheckFill color="yellowgreen" size={23} />
@@ -742,7 +776,7 @@ export default function Dashboard() {
                                                 :
                                                 <button className="remAccess" onClick={() => removeAccess(employee._id)}>
                                                     {denyingAcc === employee._id ?
-                                                        <CircularProgress />
+                                                        <CircularProgress style={{width: 25, height: 25}}/>
                                                         :
                                                         <>
                                                             <RiCloseFill color="red" size={23}/>
@@ -753,7 +787,7 @@ export default function Dashboard() {
                                             }
                                             <button className="delAcc" onClick={() => deleteAccount(employee._id)}>
                                                 {deletingAcc === employee._id ?
-                                                    <CircularProgress />
+                                                    <CircularProgress style={{color: 'white', width: 25, height: 25}}/>
                                                     :
                                                     <>
                                                         <DeleteForeverRounded htmlColor="white"/>
