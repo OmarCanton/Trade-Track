@@ -669,7 +669,6 @@
                     }
                 }
             }
-
         }
         & .manageShopItems {
             & .shop-management-body {
@@ -692,6 +691,54 @@
                     & .grantAcc, .remAccess, .delAcc {
                         font-size: 0.65rem;
                         font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}
+@media (max-width: 425px) {
+    .dashoard-wrapper {
+        & .allSales {
+            & .left-sales {
+                & .workers_sales_today_overall {
+                    & .sales_workers {
+                        flex-direction: column;
+                        & > div {
+                            width: 100%;
+                            & .tag {
+                                font-size: 1rem;
+                            }
+                            & > div {
+                                & .name {
+                                    font-size: 1.2rem;
+                                }
+                                & .quantitySold, .amountMade {
+                                    font-size: 1rem;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            & .right-analytics {
+                & .user-bars, .workers-bars {
+                    & .today_sales, .today_items_sold {
+                        & .text1 {
+                            font-size: 0.65rem;
+                        }
+                    }
+                    & .today_items_sold {
+                        & .text2 {
+                            font-size: 0.65rem;
+                        }
+                    }
+                }
+                & .workers-bars {
+                    & .workerPrgBar {
+                        & .text3 {
+                            font-size: 0.65rem;
+                        }
                     }
                 }
             }
