@@ -117,7 +117,9 @@ export default function Dashboard() {
             try {
                 if(isAdmin) {
                     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getWorkersHistory/${userId}`)
-                    setWorkerSales_admin(response.data.otherHistories)
+                    if(response.data.success) {
+                        setWorkerSales_admin(response.data.otherHistories)
+                    }
                 }
             } catch(err) {
                 console.log(err)
@@ -127,7 +129,9 @@ export default function Dashboard() {
             try {
                 if(isAdmin) {
                     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getWorkersTodaySales/${userId}`)
-                    setWorkerSales_today_admin(response.data.otherHistories)
+                    if(response.data.success) {
+                        setWorkerSales_today_admin(response.data.otherHistories)
+                    }
                 }
             } catch(err) {
                 console.log(err)
