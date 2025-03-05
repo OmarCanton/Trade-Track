@@ -117,8 +117,10 @@ export default function Dashboard() {
             try {
                 if(isAdmin) {
                     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getWorkersHistory/${userId}`)
+                    console.log("OUT OF COND", response.data.otherHistories)
                     if(response.data.success) {
                         setWorkerSales_admin(response.data.otherHistories)
+                        console.log("INSIDE COND", response.data.otherHistories)
                     }
                 }
             } catch(err) {
