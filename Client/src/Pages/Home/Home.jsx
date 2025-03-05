@@ -87,9 +87,9 @@ export default function Home() {
 
     useEffect(() => {
         if(haveAccess) {
-            navigate('/contact_admin')
-        } else {
             navigate('/')
+        } else {
+            navigate('/contact_admin')
         }
     }, [haveAccess, navigate])
 
