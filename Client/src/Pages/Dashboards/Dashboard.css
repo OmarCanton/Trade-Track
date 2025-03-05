@@ -703,7 +703,7 @@
             & .left-sales {
                 & .workers_sales_today_overall {
                     & .sales_workers {
-                        flex-direction: column;
+                        flex-direction: column !important;
                         & > div {
                             width: 100%;
                             & .tag {
@@ -725,19 +725,19 @@
                 & .user-bars, .workers-bars {
                     & .today_sales, .today_items_sold {
                         & .text1 {
-                            font-size: 0.65rem;
+                            font-size: 0.8rem;
                         }
                     }
                     & .today_items_sold {
                         & .text2 {
-                            font-size: 0.65rem;
+                            font-size: 0.8rem;
                         }
                     }
                 }
                 & .workers-bars {
                     & .workerPrgBar {
                         & .text3 {
-                            font-size: 0.65rem;
+                            font-size: 0.8rem;
                         }
                     }
                 }
