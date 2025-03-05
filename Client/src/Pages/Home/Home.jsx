@@ -39,7 +39,6 @@ import ThemeChangeAnime from "../../Components/ThemeChangeAnime";
 import Updater from "../../Components/updater";
 import {MenuRounded}  from '@mui/icons-material'
 import MenuOps from "../../Components/MenuOps";
-import ContactAdmin from "../ContactAdmin/ContactAdmin";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
@@ -88,7 +87,7 @@ export default function Home() {
 
     useEffect(() => {
         if(haveAccess) {
-            <ContactAdmin />
+            navigate('/contact_admin')
         } else {
             navigate('/')
         }

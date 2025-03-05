@@ -10,7 +10,7 @@ import axios from 'axios'
 import Home from './Pages/Home/Home'
 import PageNotFound from './Pages/PageNotFound/PageNotFound'
 import ResetPassword from './Pages/ResetPassword/ResetPasssword'
-// import ContactAdmin from './Pages/ContactAdmin/ContactAdmin'
+import ContactAdmin from './Pages/ContactAdmin/ContactAdmin'
 import Dashboard from './Pages/Dashboards/Dashboard'
 import History from './Pages/History/History'
 import WorkerHistoryPage from './Pages/WorkerHistoryPage/WorkerHistoryPage'
@@ -102,6 +102,7 @@ export default function App() {
               <Route path='dashboard' element={<Dashboard />} />
               <Route path='history' element={<History />} />
               <Route path='worker_history' element={<WorkerHistoryPage />} />
+              <Route path='contact_admin' element={<ContactAdmin />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </AnimatePresence>
