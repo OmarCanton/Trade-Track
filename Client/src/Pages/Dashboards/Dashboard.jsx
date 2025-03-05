@@ -115,7 +115,7 @@ export default function Dashboard() {
         }
         const workerSalesForAdmin = async () => {
             try {
-                if(isAdmin) {
+                if(isAdmin && userId) {
                     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getWorkersHistory/${userId}`)
                     console.log("OUT OF COND", response)
                     if(response.data.success) {
