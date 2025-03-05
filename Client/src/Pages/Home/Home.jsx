@@ -313,7 +313,7 @@ export default function Home() {
                             </motion.span>
                         }
                         <div className="recentSelectedProducts">
-                            {!recentItStatus === 'loading' && 
+                            {recentItStatus === 'loading' && 
                                 <div className='loading'>
                                     <LoadingEffect />
                                 </div>

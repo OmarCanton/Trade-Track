@@ -2,6 +2,7 @@ import { createSlice , createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
+    await new Promise((resolve) => setTimeout(resolve, 78676000))
     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getAllProducts`)
     return response.data.products
 })
