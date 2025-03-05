@@ -599,6 +599,7 @@
                         grid-template-columns: repeat(2, 1fr);
                         & > div {
                             height: 100%;
+                            width: 100%;
                         }
                     }
                 }
