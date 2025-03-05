@@ -704,7 +704,7 @@
             & .left-sales {
                 & .workers_sales_today_overall {
                     & .sales_workers {
-                        flex-direction: column !important;
+                        grid-template-columns: repeat(1, 1fr);
                         & > div {
                             width: 100%;
                             & .tag {
