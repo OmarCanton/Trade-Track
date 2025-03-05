@@ -23,6 +23,9 @@
             & .pageName {
                 font-size: 2.2rem;
                 font-weight: bold;
+                @media (max-width: 425px) {
+                    font-size: 1.5rem;
+                }
             }
         }
         & .refresh {
@@ -484,6 +487,10 @@
 .header {
     display: flex;
     align-items: center;
+    border: 1px solid red;
+    @media (max-width: 425px) {
+        font-size: 1.5rem;
+    }
 }
 
 @media (max-width:  1024px) {
