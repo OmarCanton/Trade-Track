@@ -377,8 +377,8 @@ export default function Dashboard() {
                 }}}
                 transition={{delay: 0.15, duration: 0.4, ease: 'anticipate'}}
             >
-                <div className="left">
-                    <RiArrowLeftLine size={30} cursor={'pointer'} onClick={() => navigate(-1)}/>
+                <div className="left" onClick={() => navigate(-1)}>
+                    <RiArrowLeftLine size={30} cursor={'pointer'}/>
                     <span className="pageName">Dashboard</span>
                 </div>
                 {window.innerWidth > 768 &&
