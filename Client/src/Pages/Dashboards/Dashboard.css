@@ -756,6 +756,17 @@
                 }
             }
         }
+        & .manageWorkers {
+            & .workers {
+                & .worker {
+                    & button {
+                        border-radius: 0;
+                        font-size: small;
+                        padding: 2px !important;
+                    }
+                }
+            }
+        }
     }
 }
 @media (max-width: 375px) {

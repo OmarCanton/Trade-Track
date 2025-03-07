@@ -104,7 +104,7 @@ export default function History() {
                         style={{cursor: 'pointer'}} 
                         className="back" 
                         fontSize="large" 
-                        onClick={() => navigate(-1)}
+                        onClick={() => navigate('/')}
                     />
                     <p>History</p>
                 </div>
