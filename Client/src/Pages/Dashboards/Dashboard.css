@@ -44,6 +44,7 @@
                 & .sales-body {
                     flex-wrap: wrap;
                     @media (max-width: 375px) {
+                        display: grid;
                         grid-template-columns: repeat(1, 1fr);
                     }
                 }
