@@ -55,6 +55,10 @@ export default function Dashboard() {
     const [addingPrd, setAddingPrd] = useState(false)
     const [addingCat, setAddingCat] = useState(false)
     const [deletingCat, setDeletingCat] = useState(false)
+    const [loadingSales, setLoadingSales] = useState(false)
+    const [loadingWorkers_data, setLoadingWorkers_data] = useState(false)
+    const [loadingShopItems, setLoadingShopItems] = useState(false)
+    const [gettingEmployees, setGettingEmployees] = useState(false)
 
     useEffect(() => {
         if(window.scrollY === 0) {
@@ -77,32 +81,41 @@ export default function Dashboard() {
 
     useEffect(() => {
         const getTotalGoods = async () => {
+            setLoadingShopItems(true)
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getItemsTotal`)
                 if(response.data.success) {
                     setItemsTotal(response.data.total)
+                    setLoadingShopItems(false)
                 }
             } catch (err) {
                 console.log(err)
+                setLoadingShopItems(false)
             }
         }
         const getTotalPrices = async () => {
+            setLoadingShopItems(true)
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getTotalPriceIems`)
                 if(response.data.success) {
                     setItemsTotalPrice(response.data.totalPrice)
+                    setLoadingShopItems(false)
                 }
             } catch(err) {
                 console.log(err)
+                setLoadingShopItems(false)
             }
         }
         const getTodaysSales = async () => {
+            setLoadingSales(true)
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/todaySales/${userId}`)
                 setItemsSold_today(response.data.quantitySold)
                 setSalesMade_today(response.data.amountObtained)
+                setLoadingSales(false)
             } catch(err) {
                 console.log(err)
+                setLoadingSales(false)
             }
         }
         const fetchHistory = async () => {
@@ -117,29 +130,33 @@ export default function Dashboard() {
             }
         }
         const workerSalesForAdmin = async () => {
+            setLoadingWorkers_data(true)
             try {
                 if(isAdmin) {
                     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getWorkersHistory/${userId}`)
-                    console.log("OUT OF COND", response)
                     if(response.data.success) {
                         setWorkerSales_admin(response.data.otherHistories)
-                        console.log("INSIDE COND", response.data.otherHistories)
+                        setLoadingWorkers_data(false)    
                     }
                 }
             } catch(err) {
                 console.log(err)
+                setLoadingWorkers_data(false)
             }
         }
         const workerSalesTodayForAdmin = async () => {
+            setLoadingWorkers_data(true)
             try {
                 if(isAdmin) {
                     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getWorkersTodaySales/${userId}`)
                     if(response.data.success) {
                         setWorkerSales_today_admin(response.data.otherHistories)
+                        setLoadingWorkers_data(false)
                     }
                 }
             } catch(err) {
                 console.log(err)
+                setLoadingWorkers_data(false)
             }
         }
         const fetchActions = async () => {
@@ -172,13 +189,16 @@ export default function Dashboard() {
 
     useEffect(() => {
         const fetchEmployees = async () => {
+            setGettingEmployees(true)
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getAllEmployees/${userId}`)
                 if(response.data.success) {
                     setEmployees(response.data.users)
+                    setGettingEmployees(false)
                 }
             } catch(err) {
                 console.log(err)
+                setGettingEmployees(false)
             }
         }
         fetchEmployees()
@@ -419,31 +439,56 @@ export default function Dashboard() {
                                 style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C'} : {backgroundColor: 'lightgrey'}}}
                             >
                                 <h3>Items Sold Today</h3>
-                                <div className="indicator">{itemsSold_today}</div>
+                                <div className="indicator">
+                                    {loadingSales ? 
+                                        <CircularProgress />
+                                        :
+                                        itemsSold_today
+                                    }
+                                    </div>
                             </div>
                             <div 
                                 className="totalSalesToday"
                                 style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C'} : {backgroundColor: 'lightgrey'}}}
                             >
                                 <h3>Sales Made Today</h3>
-                                <div className="indicator">{formatAmount(salesMade_today)}</div>
+                                <div className="indicator">
+                                {loadingSales ? 
+                                    <CircularProgress />
+                                    :
+                                    formatAmount(salesMade_today)
+                                }
+                                </div>
                             </div>
                             <div 
                                 className="itemsSoldOverall"
                                 style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C'} : {backgroundColor: 'lightgrey'}}}
                             >
                                 <h3>Items Sold (Overall)</h3>
-                                <div className="indicator">{overallItemsSold}</div>
+                                <div className="indicator">
+                                    {loadingSales ? 
+                                        <CircularProgress />
+                                        :
+                                    overallItemsSold
+                                    }
+                                </div>
                             </div>
                             <div 
                                 className="totalSales"
                                 style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C'} : {backgroundColor: 'lightgrey'}}}
                             >
                                 <h3>Sales Made (Overall)</h3>
-                                <div className="indicator">{formatAmount(amountOverall)}</div>
+                                <div className="indicator">
+                                    {loadingSales ? 
+                                        <CircularProgress />
+                                        :
+                                        formatAmount(amountOverall)
+                                    }
+                                </div>
                             </div>
                         </div>
                     </motion.div>
+                    {isAdmin && loadingWorkers_data && <CircularProgress />}
                     {isAdmin && (workerSales_admin.length > 0  || workerSales_today_admin.length > 0) &&
                         <motion.span style={{display: !showSales && 'none'}}
                             initial={{y: '10%', opacity: 0}}
@@ -614,14 +659,26 @@ export default function Dashboard() {
                                     style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C'} : {backgroundColor: 'lightgrey'}}}
                                 >
                                     <h3>Total Number of Items</h3>
-                                    <div className="indicator">{itemsTotal}</div>
+                                    <div className="indicator">
+                                        {loadingShopItems?
+                                            <CircularProgress />
+                                            :
+                                            itemsTotal
+                                        }
+                                    </div>
                                 </div>
                                 <div 
                                     className="totalAmount"
                                     style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C'} : {backgroundColor: 'lightgrey'}}}
                                 >
                                     <h3>Total Price of Remaining items</h3>
-                                    <div className="indicator">{formatAmount(itemsTotalPrice)}</div>
+                                    <div className="indicator">
+                                        {loadingShopItems?
+                                            <CircularProgress />
+                                            :
+                                            formatAmount(itemsTotalPrice)
+                                        }
+                                    </div>
                                 </div>
                             </div>
                             <div className="itemsAlt">
@@ -727,6 +784,7 @@ export default function Dashboard() {
                         </div>
                     </motion.div>
                     {/* Workers Management */}
+                    {gettingEmployees && <CircularProgress />}
                     {employees.length > 0 &&
                         <motion.div 
                             className="manageWorkers"
