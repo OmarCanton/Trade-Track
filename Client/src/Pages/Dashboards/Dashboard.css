@@ -760,11 +760,6 @@
             & .workers {
                 & .worker {
                     gap: 20px !important;
-                    & button {
-                        border-radius: 5px;
-                        font-size: small;
-                        padding: 2px !important;
-                    }
                 }
             }
         }
