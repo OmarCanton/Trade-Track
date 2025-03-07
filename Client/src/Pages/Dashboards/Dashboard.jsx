@@ -868,32 +868,34 @@ export default function Dashboard() {
                                         <p className="clear" onClick={clearActions}>Clear</p>
                                     </h3>
                                 }
-                                {actions && actions.map(action => {
-                                    return (
-                                        <div 
-                                            className="action-cont" 
-                                            key={action._id}
-                                            style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C', color: 'darkgrey'} : {backgroundColor: 'lightgrey', color: 'grey'}}}
-                                        >
-                                            <div className="workerDets">
-                                                <p>{action.firstName}&nbsp;{action.lastName}&nbsp;{action.action}</p>
-                                            </div>
-                                            <div className="item">
-                                                {action.name &&
-                                                    <p>[{action.name}</p>
-                                                }
-                                                {action.quantitySold &&
-                                                    <p>{action.quantitySold}</p>
-                                                }
-                                                {action.totalPrice &&
-                                                    <p>{formatAmount(action.totalPrice)}]</p>
-                                                }
-                                            </div>
-                                            <div className="date">{action.date}</div>
-                                            <div className="reason">{action.reason}</div>
-                                        </div>
-                                    )
-                                })}
+                                <ul>
+                                    {actions && actions.map(action => {
+                                        return (
+                                            <li 
+                                                className="action-cont" 
+                                                key={action._id}
+                                                style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C', color: 'darkgrey'} : {backgroundColor: 'lightgrey', color: 'grey'}}}
+                                            >
+                                                <div className="workerDets">
+                                                    <p>{action.firstName}&nbsp;{action.lastName}&nbsp;{action.action}</p>
+                                                </div>
+                                                <div className="item">
+                                                    {action.name &&
+                                                        <p>[{action.name}</p>
+                                                    }
+                                                    {action.quantitySold &&
+                                                        <p>{action.quantitySold}</p>
+                                                    }
+                                                    {action.totalPrice &&
+                                                        <p>{formatAmount(action.totalPrice)}]</p>
+                                                    }
+                                                </div>
+                                                <div className="date">{action.date}</div>
+                                                <div className="reason">{action.reason}</div>
+                                            </li>
+                                        )
+                                    })}
+                                </ul>
                             </div>
                         </motion.div>
                     }
