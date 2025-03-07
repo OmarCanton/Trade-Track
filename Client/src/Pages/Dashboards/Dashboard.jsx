@@ -826,8 +826,8 @@ export default function Dashboard() {
                                                         <CircularProgress style={{color: 'white', width: 25, height: 25}}/>
                                                         :
                                                         <>
-                                                            {window.innerWidth > 425 && <RiCheckFill color="yellowgreen" size={23} />}
-                                                            <p>Grant Access</p>
+                                                            <RiCheckFill color="yellowgreen" size={23} />
+                                                            {window.innerWidth > 425 && <p>Grant Access</p>}
                                                         </>
                                                     }
                                                 </button>
@@ -837,8 +837,8 @@ export default function Dashboard() {
                                                         <CircularProgress style={{width: 25, height: 25}}/>
                                                         :
                                                         <>
-                                                            {window.innerWidth > 425 && <RiCloseFill color="red" size={23}/>}
-                                                            <p>Remove Access</p>
+                                                            <RiCloseFill color="red" size={23}/>
+                                                            {window.innerWidth > 425 && <p>Remove Access</p>}
                                                         </>
                                                     }
                                                 </button>
@@ -848,8 +848,8 @@ export default function Dashboard() {
                                                     <CircularProgress style={{color: 'white', width: 25, height: 25}}/>
                                                     :
                                                     <>
-                                                        {window.innerWidth > 425 && <DeleteForeverRounded htmlColor="white"/>}
-                                                        <p>Delete Account</p>
+                                                        <DeleteForeverRounded htmlColor="white"/>
+                                                        {window.innerWidth > 425 && <p>Delete Account</p>}
                                                     </>
                                                 }
                                             </button>
