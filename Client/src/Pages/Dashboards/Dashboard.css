@@ -759,7 +759,7 @@
         & .manageWorkers {
             & .workers {
                 & .worker {
-                    gap:3px !important;
+                    gap: 20px !important;
                     & button {
                         border-radius: 5px;
                         font-size: small;
