@@ -30,8 +30,8 @@ export default function WorkerHistoryPage() {
                         className="back"
                         onClick={() => navigate(-1)}
                     />
+                    <p style={{fontWeight: 'bold', position: 'relative', left: 20}}>{firstName}&nbsp;{lastName}&apos;s history</p>
                 </div>
-                <p style={{fontWeight: 'bold', position: 'relative', left: 20}}>{firstName}&nbsp;{lastName}&apos;s history</p>
             </div>
             {history.length > 0 && 
                 <table>
