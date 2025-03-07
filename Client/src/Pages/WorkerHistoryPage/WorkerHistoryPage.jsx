@@ -31,7 +31,7 @@ export default function WorkerHistoryPage() {
                         onClick={() => navigate(-1)}
                     />
                 </div>
-                <p>{firstName}&nbsp;{lastName}&apos;s history</p>
+                <p style={{fontWeight: 'bold', justifySelf: 'flex-start'}}>{firstName}&nbsp;{lastName}&apos;s history</p>
             </div>
             {history.length > 0 && 
                 <table>
