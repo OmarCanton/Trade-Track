@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { ArrowBackIosNew } from '@mui/icons-material'
-import './WorkerHistoryPage.css'
+import '../History/History.css'
 import { RiCheckboxCircleFill } from "react-icons/ri"
 import { themesContext } from "../../Context/UserCredsContext"
 
@@ -10,10 +10,17 @@ export default function WorkerHistoryPage() {
     const location = useLocation()
     const { history, firstName, lastName } = location.state || {}
     const { themeStyles } = useContext(themesContext)
-    
+
+    const formatAmount = (amount) => {
+        return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'GHS'
+        }).format(amount)
+    }
+
     return (
         <div 
-            className="worker-history-wrapper"
+            className="history-wrapper"
             style={{...themeStyles.style}}
         >
             <div className="header">
@@ -24,7 +31,54 @@ export default function WorkerHistoryPage() {
                 />
                 <p>{firstName}&nbsp;{lastName}&apos;s history</p>
             </div>
-            <ul>
+            {history.length > 0 && 
+                <table>
+                    <thead>
+                        <th>Name</th>
+                        {window.innerWidth > 425 &&
+                            <th>Category</th>
+                        }
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Date</th>
+                        {window.innerWidth > 425 &&
+                            <th>Status</th>
+                        }
+                    </thead>
+                    <tbody>
+                        {history.map((hit, index) => {
+                            const date = new Date(hit.createdAt)
+                            return (
+                                <tr key={index}>
+                                    <td className="name">{hit.name}</td>
+                                    {window.innerWidth > 425 &&
+                                        <td className="category">{hit.category}</td>
+                                    }
+                                    <td>{hit.quantity}</td>
+                                    <td>{formatAmount(hit.price)}</td>
+                                    <td>{date.toDateString()}</td>
+                                    {window.innerWidth > 425 &&
+                                        <td className="status"><RiCheckboxCircleFill size={20} color="rgb(7, 141, 252)"/><p>{hit.status}</p></td>
+                                    }
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+            {/* <ul>
                 {history && history.map(hit => {
                     const date = new Date(hit.createdAt)
                     return (
@@ -42,7 +96,7 @@ export default function WorkerHistoryPage() {
                         </li>
                     )
                 })}
-            </ul>
+            </ul> */}
         </div>
     )
 }
