@@ -24,11 +24,13 @@ export default function WorkerHistoryPage() {
             style={{...themeStyles.style}}
         >
             <div className="header">
-                <ArrowBackIosNew 
-                    style={{cursor: 'pointer'}} 
-                    className="back"
-                    onClick={() => navigate(-1)}
-                />
+                <div className="left-header">
+                    <ArrowBackIosNew 
+                        style={{cursor: 'pointer'}} 
+                        className="back"
+                        onClick={() => navigate(-1)}
+                    />
+                </div>
                 <p>{firstName}&nbsp;{lastName}&apos;s history</p>
             </div>
             {history.length > 0 && 
