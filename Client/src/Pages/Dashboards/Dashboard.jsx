@@ -826,7 +826,7 @@ export default function Dashboard() {
                                                         <CircularProgress style={{color: 'white', width: 25, height: 25}}/>
                                                         :
                                                         <>
-                                                            <RiCheckFill color="yellowgreen" size={23} />
+                                                            {window.innerWidth > 425 && <RiCheckFill color="yellowgreen" size={23} />}
                                                             <p>Grant Access</p>
                                                         </>
                                                     }
@@ -837,7 +837,7 @@ export default function Dashboard() {
                                                         <CircularProgress style={{width: 25, height: 25}}/>
                                                         :
                                                         <>
-                                                            <RiCloseFill color="red" size={23}/>
+                                                            {window.innerWidth > 425 && <RiCloseFill color="red" size={23}/>}
                                                             <p>Remove Access</p>
                                                         </>
                                                     }
@@ -848,7 +848,7 @@ export default function Dashboard() {
                                                     <CircularProgress style={{color: 'white', width: 25, height: 25}}/>
                                                     :
                                                     <>
-                                                        <DeleteForeverRounded htmlColor="white"/>
+                                                        {window.innerWidth > 425 && <DeleteForeverRounded htmlColor="white"/>}
                                                         <p>Delete Account</p>
                                                     </>
                                                 }
