@@ -759,8 +759,9 @@
         & .manageWorkers {
             & .workers {
                 & .worker {
+                    gap:3px !important;
                     & button {
-                        border-radius: 0;
+                        border-radius: 5px;
                         font-size: small;
                         padding: 2px !important;
                     }
