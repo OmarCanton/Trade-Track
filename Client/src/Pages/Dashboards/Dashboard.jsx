@@ -397,7 +397,7 @@ export default function Dashboard() {
                 }}}
                 transition={{delay: 0.15, duration: 0.4, ease: 'anticipate'}}
             >
-                <div className="left" onClick={() => window.history.length > 2 ? navigate(-1) : navigate('/')}>
+                <div className="left" onClick={() => window.history.length > 1 ? navigate(-1) : navigate('/')}>
                     <RiArrowLeftLine size={30} cursor={'pointer'}/>
                     <span className="pageName">Dashboard</span>
                 </div>
