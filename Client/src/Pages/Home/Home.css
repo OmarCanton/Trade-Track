@@ -322,8 +322,13 @@
         & .main {
             & .prodsCatalogue, .recentSelected {
                 & .productsContainer, .recentSelectedProducts {
-                    grid-template-columns: repeat(2, 190px);
+                    grid-template-columns: repeat(2, 180px);
                     gap: 0;
+                    & .product {
+                        & .img {
+                            height: 60%;
+                        }
+                    }
                 }
             }
         }
