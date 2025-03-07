@@ -22,7 +22,7 @@
             & p {
                 font-size: 2rem;
                 font-weight: bold;
-                @media (max-width: 425PX) {
+                @media (max-width: 425px) {
                     font-size: 1.5rem;
                 }
             }

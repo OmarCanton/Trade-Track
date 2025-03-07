@@ -13,7 +13,6 @@
         & div:not(.left, .refresh) {
             position: relative;
             right: 4%;
-
         }
         & .left {
             display: flex;
