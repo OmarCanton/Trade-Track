@@ -218,60 +218,62 @@ export default function Home() {
                         <p>CGH</p>
                     }
                 </h2>
-                <div 
-                    ref={searchBar} 
-                    className="search"
-                >
-                    <div className="serchFil">
-                        <input
-                            ref={searchRef}
-                            type="text" 
-                            placeholder="Search Item..."
-                            onChange={(e) => { 
-                                if(e.target.value === '') {
-                                    if(filterRef.current.value === 'All') {
-                                        dispatch(fetchProducts())
+                {searchShown &&
+                    <div 
+                        ref={searchBar} 
+                        className="search"
+                    >
+                        <div className="serchFil">
+                            <input
+                                ref={searchRef}
+                                type="text" 
+                                placeholder="Search Item..."
+                                onChange={(e) => { 
+                                    if(e.target.value === '') {
+                                        if(filterRef.current.value === 'All') {
+                                            dispatch(fetchProducts())
+                                        } else {
+                                            dispatch(fetchFilteredProduct(filterRef.current.value))
+                                        }
                                     } else {
-                                        dispatch(fetchFilteredProduct(filterRef.current.value))
+                                        dispatch(fetchSearchProduct(e.target.value))
                                     }
-                                } else {
-                                    dispatch(fetchSearchProduct(e.target.value))
-                                }
-                                setSearchKey(e.target.value)
-                            }}
-                        />
-                        <div className="filter">
-                            <IoFilterSharp className="filterIcon" size={30} color="rgb(7, 141, 252)"/>
-                            <select 
-                                ref={filterRef}
-                                defaultValue={'All'}
-                                name="categories"
-                                onChange={(e) => {
-                                    if(e.target.value === 'All') {
-                                        dispatch(fetchProducts())
-                                    } else {
-                                        dispatch(fetchFilteredProduct(e.target.value))
-                                    }
+                                    setSearchKey(e.target.value)
                                 }}
-                            >
-                                <option value="All">All</option>
-                                {categories.map(category => {
-                                    return (
-                                        <option key={category._id} value={category.name}>{category.name}</option>
-                                    )
-                                })}
-                            </select>
+                            />
+                            <div className="filter">
+                                <IoFilterSharp className="filterIcon" size={30} color="rgb(7, 141, 252)"/>
+                                <select 
+                                    ref={filterRef}
+                                    defaultValue={'All'}
+                                    name="categories"
+                                    onChange={(e) => {
+                                        if(e.target.value === 'All') {
+                                            dispatch(fetchProducts())
+                                        } else {
+                                            dispatch(fetchFilteredProduct(e.target.value))
+                                        }
+                                    }}
+                                >
+                                    <option value="All">All</option>
+                                    {categories.map(category => {
+                                        return (
+                                            <option key={category._id} value={category.name}>{category.name}</option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="closeSearch" onClick={ () => {
+                            searchBar.current.style.top = '-100px'
+                            panelRef.current.style.display = 'flex'
+                            searchRef.current.value = ''
+                            setSearchShown(false)
+                        }}>
+                            <RiCloseFill size={20} />
                         </div>
                     </div>
-                    <div className="closeSearch" onClick={ () => {
-                        searchBar.current.style.top = '-100px'
-                        panelRef.current.style.display = 'flex'
-                        searchRef.current.value = ''
-                        setSearchShown(false)
-                    }}>
-                        <RiCloseFill size={20} />
-                    </div>
-                </div>
+                }
                 {window.innerWidth >= 1024 &&
                     <Panel panelRef={panelRef} searchBar={searchBar}/>
                 }
