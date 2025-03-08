@@ -55,7 +55,7 @@ passport.use('register-local',
 
             //Get Kudus' email to set him as an admin
 
-            if(email === 'abdulaiumar20@gmail.com') {
+            if(email === 'abdulkudus427@gmail.com') {
                 newUser.isAdmin = true,
                 newUser.canAccess = true
             }
