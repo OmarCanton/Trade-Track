@@ -34,8 +34,17 @@
             margin-right: 10%;
             gap: 10px;
             transition: all 0.3s;
+            @media (max-width: 1024px) {
+                top: 65px;
+                left: 0;
+                height: 70%;
+                width: 100%;
+            }
             & .serchFil {
                 position: relative;
+                @media (max-width: 1024px) {
+                    height: 100%;
+                }
                 & input {
                     padding: 15px;
                     padding-right: 110px;
@@ -45,6 +54,9 @@
                     border-radius: 20px;
                     font-size: medium;
                     outline: none;
+                    @media (max-width: 1024px) {
+                        height: 100%;
+                    }
                 }
                 & .filter {
                     position: absolute;
@@ -53,6 +65,10 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    @media (max-width: 1024px) {
+                        left: 80%;
+                        height: 80%;
+                    }
                     & .filterIcon {
                         border: 1px solid darkgrey;
                         position: absolute;
@@ -63,6 +79,9 @@
                         border-bottom-right-radius: 0;
                         border-right: none;
                         padding-left: 10px;
+                        @media (max-width: 1024px) {
+                            display: none;
+                        }
                     }
                     & select {
                         border: 1px solid darkgrey;
