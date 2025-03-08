@@ -84,7 +84,6 @@ export default function Home() {
     const [openMenu, setOpenMenu] = useState(false)
     const [recording, setRecording] = useState(false)
     const [updatingQuantity, setUpdatingQuantity] = useState(false)
-    const [searchShown, setSearchShown] = useState(false)
 
     useEffect(() => {
         if(haveAccess) {
@@ -189,9 +188,8 @@ export default function Home() {
         }
     }
     const showSearchBar = () => {
-        // searchBar.current.style.top = 15
+        searchBar.current.style.top = '15px'
         panelRef.current.style.display = 'none'
-        setSearchShown(true)
     }
 
     return (
@@ -218,67 +216,64 @@ export default function Home() {
                         <p>CGH</p>
                     }
                 </h2>
-                {searchShown &&
-                    <div 
-                        ref={searchBar} 
-                        className="search"
-                    >
-                        <div className="serchFil">
-                            <input
-                                ref={searchRef}
-                                type="text" 
-                                placeholder="Search Item..."
-                                onChange={(e) => { 
-                                    if(e.target.value === '') {
-                                        if(filterRef.current.value === 'All') {
-                                            dispatch(fetchProducts())
-                                        } else {
-                                            dispatch(fetchFilteredProduct(filterRef.current.value))
-                                        }
+                <div 
+                    ref={searchBar} 
+                    className="search"
+                >
+                    <div className="serchFil">
+                        <input
+                            ref={searchRef}
+                            type="text" 
+                            placeholder="Search Item..."
+                            onChange={(e) => { 
+                                if(e.target.value === '') {
+                                    if(filterRef.current.value === 'All') {
+                                        dispatch(fetchProducts())
                                     } else {
-                                        dispatch(fetchSearchProduct(e.target.value))
+                                        dispatch(fetchFilteredProduct(filterRef.current.value))
                                     }
-                                    setSearchKey(e.target.value)
+                                } else {
+                                    dispatch(fetchSearchProduct(e.target.value))
+                                }
+                                setSearchKey(e.target.value)
+                            }}
+                        />
+                        <div className="filter">
+                            <IoFilterSharp className="filterIcon" size={30} color="rgb(7, 141, 252)"/>
+                            <select 
+                                ref={filterRef}
+                                defaultValue={'All'}
+                                name="categories"
+                                onChange={(e) => {
+                                    if(e.target.value === 'All') {
+                                        dispatch(fetchProducts())
+                                    } else {
+                                        dispatch(fetchFilteredProduct(e.target.value))
+                                    }
                                 }}
-                            />
-                            <div className="filter">
-                                <IoFilterSharp className="filterIcon" size={30} color="rgb(7, 141, 252)"/>
-                                <select 
-                                    ref={filterRef}
-                                    defaultValue={'All'}
-                                    name="categories"
-                                    onChange={(e) => {
-                                        if(e.target.value === 'All') {
-                                            dispatch(fetchProducts())
-                                        } else {
-                                            dispatch(fetchFilteredProduct(e.target.value))
-                                        }
-                                    }}
-                                >
-                                    <option value="All">All</option>
-                                    {categories.map(category => {
-                                        return (
-                                            <option key={category._id} value={category.name}>{category.name}</option>
-                                        )
-                                    })}
-                                </select>
-                            </div>
-                        </div>
-                        <div className="closeSearch" onClick={ () => {
-                            searchBar.current.style.top = '-100px'
-                            panelRef.current.style.display = 'flex'
-                            searchRef.current.value = ''
-                            setSearchShown(false)
-                        }}>
-                            <RiCloseFill size={20} />
+                            >
+                                <option value="All">All</option>
+                                {categories.map(category => {
+                                    return (
+                                        <option key={category._id} value={category.name}>{category.name}</option>
+                                    )
+                                })}
+                            </select>
                         </div>
                     </div>
-                }
+                    <div className="closeSearch" onClick={ () => {
+                        searchBar.current.style.top = '-100px'
+                        panelRef.current.style.display = 'flex'
+                        searchRef.current.value = ''
+                    }}>
+                        <RiCloseFill size={20} />
+                    </div>
+                </div>
                 {window.innerWidth >= 1024 &&
                     <Panel panelRef={panelRef} searchBar={searchBar}/>
                 }
                 <span className="right-header">
-                    {(window.innerWidth < 1024 && !searchShown) &&
+                    {window.innerWidth < 1024 &&
                         <RiSearch2Line 
                             onClick={showSearchBar}
                             fontSize={25} 
@@ -317,7 +312,7 @@ export default function Home() {
                         className="recentSelected"
                         style={{...theme === 'dark' ? {borderBottom: '1px solid grey'} : {borderBottom: '1px solid lightgrey'}}}
                     >
-                        {(recentItStatus === 'succeeded' && !searchShown) &&
+                        {recentItStatus === 'succeeded' &&
                             <motion.span 
                                 className="recSoldHeader"
                                 initial={{y: '10%', opacity: 0}}
