@@ -889,7 +889,7 @@ export default function Dashboard() {
                                                 key={action._id}
                                                 style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C', color: 'darkgrey'} : {backgroundColor: 'lightgrey', color: 'grey'}}}
                                             >
-                                                <p>{action.firstName}&nbsp;{action.lastName}&nbsp;{action.action}</p>
+                                                <p>Action: {action.firstName}&nbsp;{action.lastName}&nbsp;{action.action}</p>
                                                 {action.name &&
                                                     <p>Name: {action.name}</p>
                                                 }
@@ -899,8 +899,8 @@ export default function Dashboard() {
                                                 {action.totalPrice &&
                                                     <p>Total Price: {formatAmount(action.totalPrice)}</p>
                                                 }
-                                                <div className="date">{action.date}</div>
-                                                <div className="reason">{action.reason}</div>
+                                                <div className="date">Date: {action.date}</div>
+                                                <div className="reason">Reason: {action.reason}</div>
                                             </div>
                                         )
                                     })}
