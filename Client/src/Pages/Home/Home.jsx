@@ -84,6 +84,7 @@ export default function Home() {
     const [openMenu, setOpenMenu] = useState(false)
     const [recording, setRecording] = useState(false)
     const [updatingQuantity, setUpdatingQuantity] = useState(false)
+    const [searchShown, setSearchShown] = useState(false)
 
     useEffect(() => {
         if(haveAccess) {
@@ -190,6 +191,7 @@ export default function Home() {
     const showSearchBar = () => {
         searchBar.current.style.top = '15px'
         panelRef.current.style.display = 'none'
+        setSearchShown(true)
     }
 
     return (
@@ -265,6 +267,7 @@ export default function Home() {
                         searchBar.current.style.top = '-100px'
                         panelRef.current.style.display = 'flex'
                         searchRef.current.value = ''
+                        setSearchShown(false)
                     }}>
                         <RiCloseFill size={20} />
                     </div>
@@ -273,7 +276,7 @@ export default function Home() {
                     <Panel panelRef={panelRef} searchBar={searchBar}/>
                 }
                 <span className="right-header">
-                    {window.innerWidth < 1024 &&
+                    {(window.innerWidth < 1024 && !searchShown) &&
                         <RiSearch2Line 
                             onClick={showSearchBar}
                             fontSize={25} 
@@ -312,7 +315,7 @@ export default function Home() {
                         className="recentSelected"
                         style={{...theme === 'dark' ? {borderBottom: '1px solid grey'} : {borderBottom: '1px solid lightgrey'}}}
                     >
-                        {recentItStatus === 'succeeded' &&
+                        {(recentItStatus === 'succeeded' && !searchShown) &&
                             <motion.span 
                                 className="recSoldHeader"
                                 initial={{y: '10%', opacity: 0}}

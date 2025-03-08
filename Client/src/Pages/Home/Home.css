@@ -96,6 +96,11 @@
                         border-bottom-left-radius: 0;
                         background-color: rgb(233, 233, 233);
                         cursor: pointer;
+                        @media (max-width: 1024px) {
+                            border-left: 1px solid darkgrey;
+                            border-bottom-left-radius: 10px;
+                            border-top-left-radius: 10px;
+                        }
                     }
                 }
             }
