@@ -17,7 +17,8 @@ export default function ContactAdmin() {
             minHeight: '100vh',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            textAlign: 'center'
         }}>
             Access Denied<br />
             Please contact your Boss for access to this App
