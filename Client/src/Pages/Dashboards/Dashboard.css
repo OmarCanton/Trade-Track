@@ -470,6 +470,7 @@
             }
             & .action-cont {
                 padding: 20px;
+                border-radius: 20px;
             }
         }
     }
@@ -548,7 +549,7 @@
         & .manageWorkers {
             & .actions_workers {
                 & .action-cont {
-                    font-size: 0.8rem;
+                    font-size: 0.9rem;
                 }   
             }
         }
