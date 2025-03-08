@@ -187,6 +187,10 @@ export default function Home() {
             setUpdatingQuantity(false)
         }
     }
+    const showSearchBar = () => {
+        searchBar.current.style.top = '15px'
+        panelRef.current.style.display = 'none'
+    }
 
     return (
         <div 
@@ -270,6 +274,7 @@ export default function Home() {
                 }
                 <span className="right-header">
                     <RiSearch2Line 
+                        onClick={showSearchBar}
                         fontSize={25} 
                         color="white" 
                         cursor={'pointer'} 
