@@ -63,7 +63,6 @@ export default function Home() {
     const searchBar = useRef()
     const searchRef = useRef()
     const panelRef = useRef()
-    const right_header_ref = useRef()
     const [categories, setCategories] = useState([])
     const [open, setOpen] = useState(false)
     const [product_Id, setProduct_Id] = useState('')
@@ -85,6 +84,7 @@ export default function Home() {
     const [openMenu, setOpenMenu] = useState(false)
     const [recording, setRecording] = useState(false)
     const [updatingQuantity, setUpdatingQuantity] = useState(false)
+    const [searchShown, setSearchShown] = useState(false)
 
     useEffect(() => {
         if(haveAccess) {
@@ -191,7 +191,7 @@ export default function Home() {
     const showSearchBar = () => {
         searchBar.current.style.top = '15px'
         panelRef.current.style.display = 'none'
-        right_header_ref.style.display = 'none'
+        setSearchShown(true)
     }
 
     return (
@@ -267,7 +267,7 @@ export default function Home() {
                         searchBar.current.style.top = '-100px'
                         panelRef.current.style.display = 'flex'
                         searchRef.current.value = ''
-                        right_header_ref.current.display = 'flex'
+                        setSearchShown(false)
                     }}>
                         <RiCloseFill size={20} />
                     </div>
@@ -275,7 +275,7 @@ export default function Home() {
                 {window.innerWidth >= 1024 &&
                     <Panel panelRef={panelRef} searchBar={searchBar}/>
                 }
-                <span className="right-header" ref={right_header_ref}>
+                <span className="right-header" style={searchShown && {opacity: 1}}>
                     {window.innerWidth < 1024 &&
                         <RiSearch2Line 
                             onClick={showSearchBar}
