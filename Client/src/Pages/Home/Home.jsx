@@ -188,11 +188,11 @@ export default function Home() {
             setUpdatingQuantity(false)
         }
     }
-    const showSearchBar = () => {
-        searchBar.current.style.top = '15px'
-        panelRef.current.style.display = 'none'
-        setSearchShown(true)
-    }
+    // const showSearchBar = () => {
+    //     searchBar.current.style.top = '15px'
+    //     panelRef.current.style.display = 'none'
+    //     setSearchShown(true)
+    // }
 
     return (
         <div 
@@ -278,7 +278,11 @@ export default function Home() {
                 <span className="right-header" style={{...searchShown ? {opacity: 0} : {opacity: 1}}}>
                     {window.innerWidth < 1024 &&
                         <RiSearch2Line 
-                            onClick={showSearchBar}
+                            onClick={() => {
+                                searchBar.current.style.top = '15px'
+                                panelRef.current.style.display = 'none'
+                                setSearchShown(true)
+                            }}
                             fontSize={24} 
                             color="white" 
                             cursor={'pointer'} 
