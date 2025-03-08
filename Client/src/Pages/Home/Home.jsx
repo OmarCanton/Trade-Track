@@ -273,7 +273,7 @@ export default function Home() {
                         fontSize={27} 
                         color="white" 
                         cursor={'pointer'} 
-                        style={{...theme === 'dark' ? { color: 'black' } : { color: 'white'}}}
+                        style={{...theme === 'dark' ? { color: 'white' } : { color: 'black'}}}
                     />
                     <RefreshRounded 
                         className="refresh" 
