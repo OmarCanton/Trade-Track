@@ -60,6 +60,9 @@
                         width: 23vw;
                         outline: none;
                         font-size: medium;
+                        @media (max-width: 1024px) {
+                            width: 90%;
+                        }
                     }
                 }
                 & .password, .confPassword {
