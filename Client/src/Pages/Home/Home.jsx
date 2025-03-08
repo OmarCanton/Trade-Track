@@ -273,13 +273,15 @@ export default function Home() {
                     <Panel panelRef={panelRef} searchBar={searchBar}/>
                 }
                 <span className="right-header">
-                    <RiSearch2Line 
-                        onClick={showSearchBar}
-                        fontSize={25} 
-                        color="white" 
-                        cursor={'pointer'} 
-                        style={{...theme === 'dark' ? { color: 'white' } : { color: 'black'}}}
-                    />
+                    {window.innerWidth < 768 &&
+                        <RiSearch2Line 
+                            onClick={showSearchBar}
+                            fontSize={25} 
+                            color="white" 
+                            cursor={'pointer'} 
+                            style={{...theme === 'dark' ? { color: 'white' } : { color: 'black'}}}
+                        />
+                    }
                     <RefreshRounded 
                         className="refresh" 
                         onClick={() => refreshScreen()}
