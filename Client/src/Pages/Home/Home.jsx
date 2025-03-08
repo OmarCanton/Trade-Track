@@ -188,11 +188,6 @@ export default function Home() {
             setUpdatingQuantity(false)
         }
     }
-    // const showSearchBar = () => {
-    //     searchBar.current.style.top = '15px'
-    //     panelRef.current.style.display = 'none'
-    //     setSearchShown(true)
-    // }
 
     return (
         <div 
