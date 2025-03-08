@@ -189,7 +189,7 @@ export default function Home() {
         }
     }
     const showSearchBar = () => {
-        searchBar.current.style.top = '15px'
+        searchBar.current.style.top = 15
         panelRef.current.style.display = 'none'
         setSearchShown(true)
     }
