@@ -258,7 +258,7 @@ export default function Home() {
                             </select>
                         </div>
                     </div>
-                    <div style={{...theme === 'dark' && {backgroundColor: 'white'}}} className="closeSearch" onClick={ () => {
+                    <div style={{...theme === 'light' && {backgroundColor: 'white'}}} className="closeSearch" onClick={ () => {
                         searchBar.current.style.top = '-100px'
                         panelRef.current.style.display = 'flex'
                         searchRef.current.value = ''
