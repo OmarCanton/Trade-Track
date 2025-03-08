@@ -279,7 +279,7 @@ export default function Home() {
                     {window.innerWidth < 1024 &&
                         <RiSearch2Line 
                             onClick={showSearchBar}
-                            fontSize={25} 
+                            fontSize={24} 
                             color="white" 
                             cursor={'pointer'} 
                             style={{...theme === 'dark' ? { color: 'white' } : { color: 'black'}}}
