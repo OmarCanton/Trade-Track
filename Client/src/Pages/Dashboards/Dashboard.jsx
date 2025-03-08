@@ -59,6 +59,7 @@ export default function Dashboard() {
     const [loadingWorkers_data, setLoadingWorkers_data] = useState(false)
     const [loadingShopItems, setLoadingShopItems] = useState(false)
     const [gettingEmployees, setGettingEmployees] = useState(false)
+    const [clearingActions, setClearingActions] = useState(false)
 
     useEffect(() => {
         if(window.scrollY === 0) {
@@ -358,15 +359,21 @@ export default function Dashboard() {
 
     const clearActions = async (e) => {
         e.preventDefault()
+        setClearingActions(true)
         try {
             const  response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteAllActions`)
             if(response.data.success) { 
                 toast.success(response.data.message)
                 setActionsCleared(prevState => !prevState)
+                setClearingActions(false)
             }
-            if(response.data.success === false) toast.error(response.data.error)
+            if(response.data.success === false){
+              toast.error(response.data.error)
+              setClearingActions(false)
+            }
         } catch(err) {
             console.log(err)
+            setClearingActions(false)
         }
     }
     const formatAmount = (amount) => {
@@ -865,7 +872,13 @@ export default function Dashboard() {
                                 {actions.length > 0 && 
                                     <h3 className="actions_title">
                                         <p>(Actions from Workers)</p>
-                                        <p className="clear" onClick={clearActions}>Clear</p>
+                                        <p className="clear" onClick={clearActions}>
+                                            {clearingActions ?
+                                                <CircularProgress style={{width: 25, height: 25}} />
+                                                :
+                                                'Clear'
+                                            }
+                                        </p>
                                     </h3>
                                 }
                                 <ul>
