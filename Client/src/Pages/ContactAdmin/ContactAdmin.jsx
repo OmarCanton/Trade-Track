@@ -13,6 +13,14 @@ export default function ContactAdmin() {
         }
     }, [haveAccess, navigate])
     return (
-        <h1>Please contact your Boss for access to this App</h1>
+        <h1 style={{
+            minHeight: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        }}>
+            Access Denied<br />
+            Please contact your Boss for access to this App
+        </h1>
     )
 }
