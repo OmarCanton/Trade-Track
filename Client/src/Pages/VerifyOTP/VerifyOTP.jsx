@@ -5,6 +5,7 @@ import  { toast } from 'react-hot-toast'
 import { motion }  from 'framer-motion'
 import { FaSpinner } from 'react-icons/fa'
 import '../VerifyOTP/VerifyOTP.css'
+import {CircularProgress} from '@mui/material'
 
 export default function VerifyOTP() {
     const [otpCode, setOTPCode] = useState('')
@@ -145,7 +146,7 @@ export default function VerifyOTP() {
                         />
                         <button disabled={!isVerifyButtonEnabled}>
                             {submitting ? 
-                                <FaSpinner style={{width: 25, height: 25, color: 'rgb(7, 141, 252)'}} />
+                                <CircularProgress style={{width: 25, height: 25, color: 'rgb(7, 141, 252)'}} />
                                 :
                                 <p>Verify</p>
                             }
