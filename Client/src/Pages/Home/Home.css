@@ -10,6 +10,10 @@
         padding-left: 25px;
         padding-right: 25px;
         height: 14vh;
+        & div:not(h2, .search, .right-header) {
+            position: relative;
+            left: 4%;
+        }
         h2 {
             display: flex;
             align-items: center;
