@@ -273,7 +273,7 @@ export default function Home() {
                     <Panel panelRef={panelRef} searchBar={searchBar}/>
                 }
                 <span className="right-header">
-                    {window.innerWidth < 768 &&
+                    {window.innerWidth < 1024 &&
                         <RiSearch2Line 
                             onClick={showSearchBar}
                             fontSize={25} 
