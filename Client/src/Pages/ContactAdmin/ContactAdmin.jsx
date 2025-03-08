@@ -20,8 +20,8 @@ export default function ContactAdmin() {
             justifyContent: 'center',
             textAlign: 'center'
         }}>
-            Access Denied<br />
-            Please contact your Boss for access to this App
+            Access Denied!<br />
+            Please contact your Boss for access to this App.
         </h1>
     )
 }
