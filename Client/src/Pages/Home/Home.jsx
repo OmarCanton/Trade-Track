@@ -275,7 +275,7 @@ export default function Home() {
                 {window.innerWidth >= 1024 &&
                     <Panel panelRef={panelRef} searchBar={searchBar}/>
                 }
-                <span className="right-header" style={searchShown && {opacity: 1}}>
+                <span className="right-header" style={{...searchShown ? {opacity: 0} : {opacity: 1}}}>
                     {window.innerWidth < 1024 &&
                         <RiSearch2Line 
                             onClick={showSearchBar}
