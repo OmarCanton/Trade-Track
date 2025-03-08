@@ -556,7 +556,7 @@ export default function Dashboard() {
                         delay: 0.2
                     }}}
                     transition={{delay: 0.15, duration: 0.4, ease: 'anticipate'}}
-                    style={{display: !showSales && 'none', ...!isAdmin && {paddingBottom: 50}}}
+                    style={{display: !showSales && 'none', ...!isAdmin && {paddingBottom: 100}}}
                 >
                     <span className="analytics-header">Sales Analytics</span>
                     <div 
