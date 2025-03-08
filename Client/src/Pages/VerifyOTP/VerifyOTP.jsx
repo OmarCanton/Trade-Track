@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import  { toast } from 'react-hot-toast'
 import { motion }  from 'framer-motion'
-import { FaSpinner } from 'react-icons/fa'
 import '../VerifyOTP/VerifyOTP.css'
 import {CircularProgress} from '@mui/material'
 
@@ -160,7 +159,7 @@ export default function VerifyOTP() {
                             onClick={resendOTP}
                         >
                             {sendingOTP ? 
-                                <FaSpinner className="spinner" style={{width: 25, height: 25, color: 'rgb(7, 141, 252)'}} />
+                                <CircularProgress className="spinner" style={{width: 25, height: 25, color: 'rgb(7, 141, 252)'}} />
                                 : 
                                 <pre>Resend</pre>
                             }
