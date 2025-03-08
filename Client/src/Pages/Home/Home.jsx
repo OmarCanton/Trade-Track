@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState, useRef } from "react"
 import { UserCredsContext, themesContext } from "../../Context/UserCredsContext"
 import '../Home/Home.css'
-import { RiCloseFill } from "react-icons/ri";
+import { RiCloseFill, RiSearch2Line } from "react-icons/ri";
 import { IoFilterSharp } from "react-icons/io5";
 import { 
     fetchProducts, 
@@ -269,6 +269,12 @@ export default function Home() {
                     <Panel panelRef={panelRef} searchBar={searchBar}/>
                 }
                 <span className="right-header">
+                    <RiSearch2Line 
+                        fontSize={27} 
+                        color="white" 
+                        cursor={'pointer'} 
+                        style={{...theme === 'dark' ? { color: 'black' } : { color: 'white'}}}
+                    />
                     <RefreshRounded 
                         className="refresh" 
                         onClick={() => refreshScreen()}
