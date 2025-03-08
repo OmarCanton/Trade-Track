@@ -468,9 +468,14 @@
                     }
                 }
             }
-            & .action-cont {
-                padding: 20px;
-                border-radius: 20px;
+            & .actions-overallCont {
+                display: flex;        
+                flex-direction: column;
+                gap: 10px;
+                & .action-cont {
+                    padding: 20px;
+                    border-radius: 20px;
+                }
             }
         }
     }

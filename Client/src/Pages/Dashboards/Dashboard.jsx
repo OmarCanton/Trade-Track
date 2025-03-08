@@ -881,7 +881,7 @@ export default function Dashboard() {
                                         </p>
                                     </h3>
                                 }
-                                <div>
+                                <div className="actions-overallCont">
                                     {actions && actions.map(action => {
                                         return (
                                             <div
