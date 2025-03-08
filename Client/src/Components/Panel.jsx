@@ -24,7 +24,6 @@ export default function Panel ({panelRef, searchBar}) {
             const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/logout`, {withCredentials: true})
             if(response.data.success) {
                 localStorage.removeItem('isLoggedIn')
-                localStorage.removeItem('access_utility')
                 setIsLoggedIn(response.data.success)
                 navigate('/auth/signin')
             }

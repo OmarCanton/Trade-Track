@@ -48,7 +48,6 @@ export default function SignIn() {
                 setIsLoggedIn(response.data.user.isAuthenticated)
                 setUserId(response.data.user._id)
                 localStorage.setItem('isLoggedIn', response.data.user.isAuthenticated)
-                localStorage.setItem('access_utility', response.data.user.canAccess)
                 navigate('/')
                 setSigningIn(false)
             } 
