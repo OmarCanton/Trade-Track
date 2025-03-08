@@ -881,44 +881,30 @@ export default function Dashboard() {
                                         </p>
                                     </h3>
                                 }
-                                <ul>
+                                <div>
                                     {actions && actions.map(action => {
                                         return (
-                                            <li 
+                                            <div
                                                 className="action-cont" 
                                                 key={action._id}
                                                 style={{...theme === 'dark' ? {backgroundColor: '#3C3C3C', color: 'darkgrey'} : {backgroundColor: 'lightgrey', color: 'grey'}}}
                                             >
-                                                <div className="workerDets">
-                                                    <p>
-                                                        {action.firstName}&nbsp;{action.lastName}&nbsp;{action.action}&nbsp;&nbsp;&nbsp;
-                                                        <RiArrowDropDownFill size={30}
-                                                            style={
-                                                                {...!showWorkersMgt && 
-                                                                    {transform: 'rotate(180deg)'}, 
-                                                                    transition: 'all 0.2s'
-                                                                }
-                                                            }
-                                                        />
-                                                    </p>
-                                                </div>
-                                                <div className="item">
-                                                    {action.name &&
-                                                        <p>[{action.name}</p>
-                                                    }
-                                                    {action.quantitySold &&
-                                                        <p>{action.quantitySold}</p>
-                                                    }
-                                                    {action.totalPrice &&
-                                                        <p>{formatAmount(action.totalPrice)}]</p>
-                                                    }
-                                                </div>
+                                                <p>{action.firstName}&nbsp;{action.lastName}&nbsp;{action.action}</p>
+                                                {action.name &&
+                                                    <p>Name: {action.name}</p>
+                                                }
+                                                {action.quantitySold &&
+                                                    <p>Qunatity: {action.quantitySold}</p>
+                                                }
+                                                {action.totalPrice &&
+                                                    <p>Total Price: {formatAmount(action.totalPrice)}</p>
+                                                }
                                                 <div className="date">{action.date}</div>
                                                 <div className="reason">{action.reason}</div>
-                                            </li>
+                                            </div>
                                         )
                                     })}
-                                </ul>
+                                </div>
                             </div>
                         </motion.div>
                     }

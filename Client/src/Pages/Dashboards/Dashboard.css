@@ -448,6 +448,27 @@
                 }
             }
         }
+        & .actions_workers {
+            display: flex;
+            flex-direction: column;
+            margin-top: 15px;
+            gap: 5px;
+            font-weight: bold;
+            & .actions_title {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 5px;
+                padding-right: 10px;
+                & .clear {
+                    color: red;
+                    cursor: pointer;
+                    &:hover {
+                        opacity: 0.7;
+                    }
+                }
+            }
+        }
         /* & .actions_workers {
             display: flex;
             flex-direction: column;
