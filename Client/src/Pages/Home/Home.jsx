@@ -270,7 +270,7 @@ export default function Home() {
                 }
                 <span className="right-header">
                     <RiSearch2Line 
-                        fontSize={27} 
+                        fontSize={25} 
                         color="white" 
                         cursor={'pointer'} 
                         style={{...theme === 'dark' ? { color: 'white' } : { color: 'black'}}}
