@@ -15,7 +15,7 @@ const addProduct = async (req, res) => {
 
         const existingProduct = await Products.findOne({name, category})
         if(existingProduct) {
-            res.sttaus(409).json({ message: 'Product already in the catalogue' })
+            res.status(409).json({ message: 'Product already in the catalogue' })
         } else {
             const newProduct = new Products({
                 name,
