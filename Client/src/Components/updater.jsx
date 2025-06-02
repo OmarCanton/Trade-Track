@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 import { RiCloseCircleFill } from 'react-icons/ri'
 import { motion } from 'framer-motion'
 import { useContext } from 'react'
-import { themesContext } from '../Context/UserCredsContext'
+import { themesContext } from '../Context/themeContext'
 import './Updater.css'
 import { CircularProgress } from '@mui/material'
 
-export default function Updater({open, onClose, func, setUpdateQuantity, updatingQuantity}) {
+export default function Updater({open, onClose, func, updateQuantity, setUpdateQuantity, updatingQuantity}) {
     const { themeStyles } = useContext(themesContext)
 
     if(!open) return null
@@ -23,6 +23,8 @@ export default function Updater({open, onClose, func, setUpdateQuantity, updatin
                 <form onSubmit={func}>
                     <div className="input">
                         <input 
+                            value={updateQuantity}
+                            required
                             type="number" 
                             placeholder='Enter additional quantity...'
                             onChange={(e) => setUpdateQuantity(e.target.value)}
@@ -48,6 +50,7 @@ Updater.propTypes ={
     open: PropTypes.any,
     onClose: PropTypes.any,
     func: PropTypes.func,
+    updateQuantity: PropTypes.any,
     setUpdateQuantity: PropTypes.any,
     updatingQuantity: PropTypes.any
 }

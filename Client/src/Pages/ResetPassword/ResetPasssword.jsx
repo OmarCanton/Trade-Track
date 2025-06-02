@@ -18,27 +18,17 @@ export default function ResetPassword() {
         e.preventDefault()
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/reset-password/${token}`, { newPassword, confNewPassword })
-            if(response.data.success === true) {
-                toast.success(response.data.message, {
-                    style: {
-                        backgroundColor: 'black',
-                        color: 'white'
-                    }, 
-                    duration: 5000
-                })
-                navigate('/auth/signin')
-            }
-            if(response.data.success === false) {
-                toast.error(response.data.error, {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
-            }
+            toast.success(response.data.message, {
+                style: {
+                    backgroundColor: 'black',
+                    color: 'white'
+                }, 
+                duration: 5000
+            })
+            navigate('/auth/signin')
         } catch(err) {
             console.log(err)
-            toast.error('An unexpected error occured', {
+            toast.error(err?.response?.data?.message, {
                 style: {
                     backgroundColor: 'white',
                     color: 'black'

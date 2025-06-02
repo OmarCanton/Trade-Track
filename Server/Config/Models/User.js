@@ -34,9 +34,10 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    isAdmin: {
-        type: Boolean,
-        default: false
+    role: {
+        type: String,
+        default: 'worker',
+        enum: ['admin', 'worker']
     },
     verificationCode: String,
     verificationCodeExpire: Date,
@@ -44,4 +45,6 @@ const UserSchema = new mongoose.Schema({
     resetPasswordTokenExpires: Date
 }, { timestamps: true })
 
-module.exports = mongoose.model('Users', UserSchema)
+const Users = mongoose.model('Users', UserSchema)
+
+module.exports = Users

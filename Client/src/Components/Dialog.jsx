@@ -3,11 +3,14 @@ import { RiCloseCircleFill } from 'react-icons/ri'
 import './Dialog.css'
 import { motion } from 'framer-motion'
 import { useContext } from 'react'
-import { themesContext, UserCredsContext } from '../Context/UserCredsContext'
+import { themesContext } from '../Context/themeContext'
 import { CircularProgress } from '@mui/material'
+import { useSelector } from 'react-redux'
+import { authed_user } from '../Redux/Slices/AuthSlice'
 
 export default function Dialog({delHistory, setReason, open, onClose, isAllHistoryDel, deleting, deletingAll}) {
-    const { isAdmin } = useContext(UserCredsContext)
+    const user = useSelector(authed_user)
+    const isAdmin = user?.role === 'admin'
     const { themeStyles } = useContext(themesContext)
         
     if(!open) return null

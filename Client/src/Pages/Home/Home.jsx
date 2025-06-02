@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState, useRef } from "react"
-import { UserCredsContext, themesContext } from "../../Context/UserCredsContext"
+import { themesContext } from "../../Context/themeContext"
 import '../Home/Home.css'
 import { RiCloseFill, RiSearch2Line } from "react-icons/ri";
 import { IoFilterSharp } from "react-icons/io5";
@@ -40,10 +40,16 @@ import Updater from "../../Components/updater";
 import {MenuRounded}  from '@mui/icons-material'
 import MenuOps from "../../Components/MenuOps";
 import { useNavigate } from "react-router-dom";
+import { authed_token, authed_user, updateCanAcess } from "../../Redux/Slices/AuthSlice";
 
 export default function Home() {
     const navigate = useNavigate()
-    const { userId, isAdmin, firstName, lastName, haveAccess } = useContext(UserCredsContext)
+    const user = useSelector(authed_user)
+    const token = useSelector(authed_token)
+    const isAdmin = user?.role === 'admin'
+    const firstName = user?.firstName
+    const lastName = user?.lastName
+    const haveAccess = user?.canAccess
     const { 
         theme, 
         changeTheme, 
@@ -79,7 +85,7 @@ export default function Home() {
     const [enableRefreshRot, setEnablerefreshRot] = useState(false)
     const [openUpdater, setOpenUpdater] = useState(false)
     const [itemsUpdate_id, setItemsUpdate_id] = useState()
-    const [itemsUpdate_quantity, setItemsUpdate_quantity] = useState()
+    const [itemsUpdate_quantity, setItemsUpdate_quantity] = useState('')
     const [itemUpdated, setItemUpdated] = useState(false)
     const [openMenu, setOpenMenu] = useState(false)
     const [recording, setRecording] = useState(false)
@@ -95,14 +101,30 @@ export default function Home() {
     }, [haveAccess, navigate])
 
     useEffect(() => {
+        const canAccess = async () => {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/can_access`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            dispatch(updateCanAcess(response?.data?.canAccess))
+        }
+        canAccess()
+    }, [dispatch, token])
+
+    useEffect(() => {
         const fetchCategories = async () => {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getAllCategory`)
-            setCategories(response.data.categories)
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getAllCategory`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            setCategories(response?.data?.categories)
         }
         fetchCategories()
-        dispatch(fetchProducts())
-        dispatch(fetchRecents())
-    }, [dispatch, record_made, delPrd, refresh, itemUpdated])
+        dispatch(fetchProducts(token))
+        dispatch(fetchRecents(token))
+    }, [dispatch, token, record_made, delPrd, refresh, itemUpdated])
 
     const handlePrdClick = (product) => {
         setOpen(true)
@@ -117,25 +139,24 @@ export default function Home() {
         setRecording(true)
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/record`, { 
-                userId, 
                 name, 
                 quantity_sold, 
                 product_Id, 
                 product_price 
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            if(response.data.success) {
-                toast.success(response.data.message)
-                setOpen(prevState => !prevState)
-                setRecord_made(prevState => !prevState)
-                setRecording(false)
-            }
-            if(response.data.success === false) {
-                toast.error(response.data.error)
-                setRecording(false)
-            }
+            toast.success(response?.data?.message)
+            setOpen(prevState => !prevState)
+            setRecord_made(prevState => !prevState)
         } catch(err) {
             console.log(err)
+            toast.error(err?.response?.data?.message)
+        } finally {
             setRecording(false)
+            setQuantity_sold(1)
         }
     }
 
@@ -172,22 +193,24 @@ export default function Home() {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/updateProduct`, {
                 itemsUpdate_id,
                 itemsUpdate_quantity
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            if(response.data.success) {
-                toast.success(response.data.message)
-                setOpenUpdater(false)
-                setItemUpdated(prevState => !prevState)
-                setUpdatingQuantity(false)
-            }
-            if(response.data.success === false) {
-                toast.error(response.data.message)
-                setUpdatingQuantity(false)
-            }
+            toast.success(response?.data?.message)
+            setOpenUpdater(false)
+            setItemUpdated(prevState => !prevState)
         } catch(err) {
             console.log(err)
+            toast.error(err?.response?.data?.message)
+        } finally {
             setUpdatingQuantity(false)
+            setItemsUpdate_quantity('')
         }
     }
+
+    
 
     return (
         <div 
@@ -207,10 +230,10 @@ export default function Home() {
                     {window.innerWidth < 1024 &&
                         <MenuRounded onClick={() => setOpenMenu(true)}/>
                     }
-                    {window.innerWidth > 425 ?
-                        <p>Campus Gadgets Hub</p>
-                        :
+                    {window.innerWidth < 1024 ?
                         <p>CGH</p>
+                        :
+                        <p>Campus Gadgets Hub</p>
                     }
                 </h2>
                 <div 
@@ -225,12 +248,12 @@ export default function Home() {
                             onChange={(e) => { 
                                 if(e.target.value === '') {
                                     if(filterRef.current.value === 'All') {
-                                        dispatch(fetchProducts())
+                                        dispatch(fetchProducts(token))
                                     } else {
-                                        dispatch(fetchFilteredProduct(filterRef.current.value))
+                                        dispatch(fetchFilteredProduct({filterKey: filterRef.current.value, token}))
                                     }
                                 } else {
-                                    dispatch(fetchSearchProduct(e.target.value))
+                                    dispatch(fetchSearchProduct({name: e.target.value, token}))
                                 }
                                 setSearchKey(e.target.value)
                             }}
@@ -243,9 +266,9 @@ export default function Home() {
                                 name="categories"
                                 onChange={(e) => {
                                     if(e.target.value === 'All') {
-                                        dispatch(fetchProducts())
+                                        dispatch(fetchProducts(token))
                                     } else {
-                                        dispatch(fetchFilteredProduct(e.target.value))
+                                        dispatch(fetchFilteredProduct({filterKey: e.target.value, token}))
                                     }
                                 }}
                             >
@@ -532,6 +555,7 @@ export default function Home() {
                 onClose={() => setOpen(prevState => !prevState)}
                 name={name} 
                 quantity={quantity}
+                quantity_sold={quantity_sold}
                 setQuantity_sold={setQuantity_sold}
                 record={record}
                 recording={recording}
@@ -549,6 +573,7 @@ export default function Home() {
                 open={openUpdater}
                 onClose={() => setOpenUpdater(false)}
                 func={updateItem}
+                updateQuantity={itemsUpdate_quantity}
                 setUpdateQuantity={setItemsUpdate_quantity}
                 updatingQuantity={updatingQuantity}
             />

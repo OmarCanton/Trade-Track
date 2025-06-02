@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { UserCredsContext, themesContext } from '../../Context/UserCredsContext'
+import { themesContext } from '../../Context/themeContext'
 import { toast } from 'react-hot-toast'
 import '../SignIn/SignIn.css'
 import { 
@@ -13,20 +13,21 @@ import {
 } from '@mui/material'
 import { motion } from 'framer-motion'
 import { FaRegEye, FaRegEyeSlash, FaSpinner } from 'react-icons/fa'
+import { useDispatch } from 'react-redux'
+import { login } from '../../Redux/Slices/AuthSlice'
 
 export default function SignIn() {
+    const dispatch = useDispatch()
     const [email, setEmail] = useState('')
     const [resetEmail, setResetEmail] = useState('')
     const [password, setPassword] = useState('')
     const [reVerify, setReVerify] = useState(false)
-    const {setIsLoggedIn, setUserId} = useContext(UserCredsContext)
     const navigate = useNavigate()
     const [signingIn, setSigningIn] = useState(false)
     const [open, setOpen] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [sendingCode, setSendingCode] = useState(false)
     const [sendingResetLink, setSendingResetLink] = useState(false)
-    const id = localStorage.getItem('utility_user_id')
     const { theme } = useContext(themesContext)
 
     const data = {
@@ -37,57 +38,38 @@ export default function SignIn() {
         event.preventDefault()
         setSigningIn(true)
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, data, {withCredentials: true})
-            if(response.data.success === true) {
-                toast.success(response.data.message, {
-                    style: {
-                        backgroundColor: 'black',
-                        color: 'white'
-                    }
-                })
-                setIsLoggedIn(response.data.user.isAuthenticated)
-                setUserId(response.data.user._id)
-                localStorage.setItem('isLoggedIn', response.data.user.isAuthenticated)
-                navigate('/')
-                setSigningIn(false)
-            } 
-            if(response.data.success === false) {
-                toast.error(response.data.error, {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
-                setSigningIn(false)
-            } 
-            if(response.data.isAuth === false) {
-                toast.error(response.data.message, {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, data)
+            toast.success(response?.data?.message, {
+                style: {
+                    backgroundColor: 'black',
+                    color: 'white'
+                }
+            })
+            dispatch(login(response?.data))
+            navigate('/')
+        } catch (err) {
+            console.log(err)
+            if(err?.response?.status === 401) {
                 setReVerify(true)
                 setSigningIn(false)
             }
-        } catch (err) {
-            console.log(err)
-            toast.error(err.message, {
+            toast.error(err?.response?.data?.message, {
                 style: {
                     backgroundColor: 'white',
                     color: 'black'
                 }
             })
+        } finally {
             setSigningIn(false)
         }
     }
 
+    //handle this later, not functioning, make it send the code using the user's email instead of the id
     const handleReVerify = async (e) => {
         e.preventDefault()
         setSendingCode(true)
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/resend-code`, {id}, {withCredentials: true})
-            console.log('response:: ', response.data)
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/resend-code/`)
             if(response.data.success === true) {
                 toast.success(response.data.message, {
                     style: {
@@ -121,45 +103,24 @@ export default function SignIn() {
     const resetPassword = async () => {
         setSendingResetLink(true)
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/forgot-password`, {resetEmail}, {withCredentials: true})
-            if(response.data.success === true) {
-                toast.success(response.data.message, {
-                    style: {
-                        backgroundColor: 'black',
-                        color: 'white'
-                    }
-                })
-                setOpen(false)
-            }
-            if(response.data.success === false) {
-                toast.error(response.data.error, {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
-            }
-            setResetEmail('')
-            setSendingResetLink(false)
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/forgot-password`, {resetEmail})
+            toast.success(response?.data?.message, {
+                style: {
+                    backgroundColor: 'black',
+                    color: 'white'
+                }
+            })
         } catch(err) {
-            if(err.response) {
-                toast.error(err.response.data.message, {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
-            } else {
-                toast.error('An Unknown error occured', {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
-            }
+            toast.error(err?.response?.data?.message, {
+                style: {
+                    backgroundColor: 'white',
+                    color: 'black'
+                }
+            })
+        } finally {
+            setOpen(false)
             setResetEmail('')
             setSendingResetLink(false)
-            setOpen(false)
         }
     }
     
@@ -205,16 +166,14 @@ export default function SignIn() {
                             {showPassword ? 
                                 <FaRegEye 
                                     onClick={() => setShowPassword(prevState => !prevState)} 
-                                    className='showPass' 
-                                    htmlColor='grey'
-                                    style={{cursor: 'pointer', ...theme === 'dark' && {color: 'rgb(7, 141, 252)'}}}
+                                    className='showPass'
+                                    style={{cursor: 'pointer', ...theme === 'dark' ? {color: 'rgb(7, 141, 252)'} : {color: 'grey'}}}
                                 />
                                 :
                                 <FaRegEyeSlash 
                                     onClick={() => setShowPassword(prevState => !prevState)} 
                                     className='showPass' 
-                                    htmlColor='#3C3C3C' 
-                                    style={{cursor: 'pointer', ...theme === 'dark' && {color: 'rgb(7, 141, 252)'}}}
+                                    style={{cursor: 'pointer', ...theme === 'dark' ? {color: 'rgb(7, 141, 252)'} : {color: '#3C3C3C'}}}
                                 />
                             }
                         </div>

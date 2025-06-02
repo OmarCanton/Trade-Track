@@ -1,26 +1,52 @@
 import { createSlice , createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-
-export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getAllProducts`)
-    return response.data.products
+export const fetchProducts = createAsyncThunk('products/fetchProducts', async (token, {rejectWithValue}) => {
+    try {
+        
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getAllProducts`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response?.data?.products
+    } catch(err) {
+        console.error
+        rejectWithValue(err?.response?.data?.message)
+    }
 })
-export const fetchSearchProduct = createAsyncThunk('products/fetchSearchProduct', async (name) => {
-    // await new Promise((resolve) => setTimeout(resolve, 1000))
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/searchProd/${name}`)
-    return response.data.searchResults
+export const fetchSearchProduct = createAsyncThunk('products/fetchSearchProduct', async ({name, token}, {rejectWithValue}) => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/searchProd/${name}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response?.data?.searchResults
+    } catch(err) {
+        console.error(err)
+        rejectWithValue(err?.response?.data?.message)
+    }
 })
-export const fetchFilteredProduct = createAsyncThunk('products/fetchFilteredProduct', async (filterKey) => {
-    // await new Promise((resolve) => setTimeout(resolve, 1000))
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/fetchFilteredProducts/${filterKey}`)
-    return response.data.filteredResults
+export const fetchFilteredProduct = createAsyncThunk('products/fetchFilteredProduct', async ({filterKey, token}, { rejectWithValue }) => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/fetchFilteredProducts/${filterKey}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response?.data?.filteredResults
+    } catch(err) {
+        console.error(err)
+        rejectWithValue(err?.response?.data?.message)
+    }
 })
 
 const initState = {
     items: [],
     status: 'idle',
     isSearch : false,
-    isFiltered: false
+    isFiltered: false,
+    error: null
 }
 
 const productsSlice = createSlice({
@@ -61,14 +87,17 @@ const productsSlice = createSlice({
             state.isSearch = false
             state.isFiltered = true
         })
-        .addCase(fetchProducts.rejected, (state) => {
+        .addCase(fetchProducts.rejected, (state, action) => {
             state.status = 'failed'
+            state.error = action.payload || 'Something went wrong'
         })
-        .addCase(fetchSearchProduct.rejected, (state) => {
+        .addCase(fetchSearchProduct.rejected, (state, action) => {
             state.status = 'failed'
+            state.error = action.payload || 'Something went wrong'
         })
-        .addCase(fetchFilteredProduct.rejected, (state) => {
+        .addCase(fetchFilteredProduct.rejected, (state, action) => {
             state.status = 'failed'
+            state.error = action.payload || 'Something went wrong'
         })
     }
 })

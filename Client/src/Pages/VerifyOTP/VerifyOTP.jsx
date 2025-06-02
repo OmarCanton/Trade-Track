@@ -1,97 +1,69 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import  { toast } from 'react-hot-toast'
 import { motion }  from 'framer-motion'
 import '../VerifyOTP/VerifyOTP.css'
-import {CircularProgress} from '@mui/material'
+import { CircularProgress } from '@mui/material'
 
 export default function VerifyOTP() {
     const [otpCode, setOTPCode] = useState('')
-    const id = localStorage.getItem('utility_user_id')
     const [submitting, setSubmitting] = useState(false)
     const [sendingOTP, setSendingOTP] = useState(false)
-    
+    const { id } = useParams()
     const navigate = useNavigate()
     const initialTime = 300
-    const [timeLeft, setTimeLeft] = useState(initialTime);
-    const [isVerifyButtonEnabled, setIsButtonAEnabled] = useState(true);
-    const [isResendButtonEnabled, setIsButtonBEnabled] = useState(false);
-    const [isTimerRunning, setIsTimerRunning] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(initialTime)
+    const [isVerifyButtonEnabled, setIsButtonAEnabled] = useState(true)
+    const [isResendButtonEnabled, setIsButtonBEnabled] = useState(false)
+    const [isTimerRunning, setIsTimerRunning] = useState(false)
     
-    const data = {
-        otpCode, 
-        id
-    }
     const verifyOTPCode = async (event) => {
         event.preventDefault()
         setSubmitting(true)
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/register-verify-code`, data, {withCredentials: true})
-            if(response.data.success === true) {
-                toast.success(response.data.message, {
-                    style: {
-                        backgroundColor: 'black',
-                        color: 'white'
-                    }
-                })
-                setSubmitting(false)
-                localStorage.removeItem('utility_user_id')
-                navigate('/')
-            }
-            if(response.data.success === false) {
-                toast.error(response.data.error, {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
-                setSubmitting(false)
-            }
-
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/register-verify-code/${id}`, { otpCode })
+            toast.success(response?.data?.message, {
+                style: {
+                    backgroundColor: 'black',
+                    color: 'white'
+                }
+            })
+            // localStorage.removeItem('utility_user_id')
+            navigate('/')
         } catch(err) {
-            toast.error(err.message, {
+            toast.error(err?.response?.data?.message, {
                 style: {
                     backgroundColor: 'white',
                     color: 'black'
                 }
             })
+        } finally {
+            setSubmitting(false)
         }
     }
 
     const resendOTP = async () => {
         setSendingOTP(true)
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/resend-code`, {id}, {withCredentials: true})
-            console.log('response:: ', response.data)
-            if(response.data.success === true) {
-                toast.success(response.data.message, {
-                    style: {
-                        backgroundColor: 'black',
-                        color: 'white'
-                    }
-                })
-                setSendingOTP(false)
-                setTimeLeft(initialTime);
-                setIsButtonAEnabled(true);
-                setIsButtonBEnabled(false);            
-            }
-            if(response.data.success === false) {
-                toast.error(response.data.error, {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
-                setSendingOTP(false)
-            }
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/resend-code/${id}`)
+            toast.success(response?.data?.message, {
+                style: {
+                    backgroundColor: 'black',
+                    color: 'white'
+                }
+            })
+            setTimeLeft(initialTime)
+            setIsButtonAEnabled(true)
+            setIsButtonBEnabled(false)
         } catch (err) {
-            toast.error(err.message, {
+            toast.error(err?.response?.data?.message, {
                 style: {
                     backgroundColor: 'white',
                     color: 'black'
                 }
             })
+        } finally {
             setSendingOTP(false)
         }
     }

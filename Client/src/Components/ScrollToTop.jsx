@@ -1,7 +1,7 @@
 import { ArrowUpwardRounded } from '@mui/icons-material'
 import './Scroll.css'
 import { useContext } from 'react'
-import { themesContext } from '../Context/UserCredsContext'
+import { themesContext } from '../Context/themeContext'
 export default function ScrollToTop() {
     const { theme } = useContext(themesContext)
 

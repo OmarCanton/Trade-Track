@@ -8,15 +8,19 @@ import { GrUserAdmin } from "react-icons/gr";
 import { RiDashboardFill, RiHistoryFill } from "react-icons/ri";
 import { TbLogout } from "react-icons/tb";
 import { Link, useNavigate } from "react-router-dom";
-import { UserCredsContext, themesContext } from "../Context/UserCredsContext";
+import { themesContext } from "../Context/themeContext";
 import { toast } from 'react-hot-toast'
-import axios from 'axios'
 import { motion } from 'framer-motion'
+import { useDispatch, useSelector } from 'react-redux';
+import { authed_user, logout } from '../Redux/Slices/AuthSlice';
 
 export default function MenuOps({open, onClose, setOpenMenu}) {
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const [loggingOut, setLoggingOut] = useState(false)
-    const { isAdmin, setIsLoggedIn, firstName } = useContext(UserCredsContext)
+    const user = useSelector(authed_user)
+    const isAdmin = user?.role === 'admin'
+    const firstName = user?.firstName
     const { theme } = useContext(themesContext)
     const divRef = useRef(null)
 
@@ -29,34 +33,15 @@ export default function MenuOps({open, onClose, setOpenMenu}) {
         }
     }
 
-
     const handleLogout = async () => {
         setLoggingOut(true)
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/logout`, {withCredentials: true})
-            if(response.data.success) {
-                localStorage.removeItem('isLoggedIn')
-                localStorage.removeItem('access_utility')
-                setIsLoggedIn(response.data.success)
-                navigate('/auth/signin')
-            }
-            setLoggingOut(false)
-        } catch (err) {
-            if(err.response) {
-                toast.error(err.response.data.message, {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
-            } else {
-                toast.error('An Unknown error occured', {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
-            }
+            dispatch(logout())
+            navigate('/auth/signin')
+        } catch(err) {
+            console.error(err)
+            toast.error(err?.response?.data?.message)
+        } finally {
             setLoggingOut(false)
         }
     }

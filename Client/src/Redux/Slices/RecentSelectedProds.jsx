@@ -1,9 +1,18 @@
 import { createSlice , createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-export const fetchRecents = createAsyncThunk('recents/fetchRecents', async () => {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/recentSelectedProducts`)
-    return response.data.recentProducts
+export const fetchRecents = createAsyncThunk('recents/fetchRecents', async (token, { rejectWithValue }) => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/recentSelectedProducts`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response?.data?.recentProducts
+    } catch(err) {
+        console.error(err)
+        rejectWithValue(err?.response?.data?.message)
+    }
 })
 
 const initState = {

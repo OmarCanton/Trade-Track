@@ -5,10 +5,13 @@ import './Dialog.css'
 import { motion } from 'framer-motion'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
-import { themesContext } from '../Context/UserCredsContext'
+import { themesContext } from '../Context/themeContext'
 import { CircularProgress } from '@mui/material'
+import { authed_token } from '../Redux/Slices/AuthSlice'
+import { useSelector } from 'react-redux'
 
 export default function DeleteDialog({id, name, setDelPrd, open, setOpen, onClose}) {
+    const token = useSelector(authed_token)
     const { themeStyles } = useContext(themesContext)
     const [deleting, setDeleting] = useState(false)
     const deleteProduct = async (e) => {
@@ -17,15 +20,18 @@ export default function DeleteDialog({id, name, setDelPrd, open, setOpen, onClos
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteProduct`, {
                 id
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            if(response.data.success) {
-                toast.success(response.data.message)
-                setDelPrd(prevState => !prevState)
-                setDeleting(false)
-                setOpen(false)
-            }
+            toast.success(response?.data?.message)
+            setDelPrd(prevState => !prevState)
+            setOpen(false)
         } catch(err) {
             console.log(err)
+            toast.success(err?.response?.data?.message)
+        } finally {
             setDeleting(false)
         }
     }

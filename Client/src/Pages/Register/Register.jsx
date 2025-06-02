@@ -9,7 +9,7 @@ import {
     FaRegEyeSlash, 
     FaSpinner, 
 } from "react-icons/fa";
-import { themesContext } from '../../Context/UserCredsContext'
+import { themesContext } from '../../Context/themeContext'
 
 export default function SignUp() {
     const [firstName, setFirstName] = useState('')
@@ -74,37 +74,24 @@ export default function SignUp() {
         setSigningUp(true)
         
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/register-send-code`, 
-                signupData, 
-                {withCredentials: true}
-            )
-            if(response.data.success === true) {
-                toast.success(response.data.message, {
-                    style: {
-                        backgroundColor: 'black',
-                        color: 'white'
-                    }
-                })
-                localStorage.setItem('utility_user_id', response.data.user._id)
-                setSigningUp(false)
-                navigate('/verify-otp')
-            }
-            if(response.data.success === false) {
-                toast.error(response.data.error, {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
-                setSigningUp(false)            
-            }
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/register-send-code`, signupData)
+            toast.success(response.data.message, {
+                style: {
+                    backgroundColor: 'black',
+                    color: 'white'
+                }
+            })
+            // localStorage.setItem('utility_user_id', response?.data?.id)
+            setSigningUp(false)
+            navigate(`/verify-otp/${response?.data?.id}`)
         } catch (err) {
-            toast.error(err.message, {
+            toast.error(err?.response?.data?.message, {
                 style: {
                     backgroundColor: 'white',
                     color: 'black'
                 }
             })
+        } finally {
             setSigningUp(false)
         }
     }

@@ -13,4 +13,5 @@ const HistorySchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-module.exports = mongoose.model('History', HistorySchema)
+const History = mongoose.model('History', HistorySchema)
+module.exports = History

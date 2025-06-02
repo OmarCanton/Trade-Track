@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { UserCredsContext, themesContext } from "../../Context/UserCredsContext"
+import { themesContext } from "../../Context/themeContext"
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import '../Dashboards/Dashboard.css'
@@ -12,9 +12,13 @@ import { motion } from 'framer-motion'
 import Panel from "../../Components/Panel";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 import ScrollToTop from "../../Components/ScrollToTop"
+import { useSelector } from "react-redux"
+import { authed_user, authed_token } from "../../Redux/Slices/AuthSlice"
 
 export default function Dashboard() {
-    const { userId, isAdmin } = useContext(UserCredsContext)
+    const user = useSelector(authed_user)
+    const token = useSelector(authed_token)
+    const isAdmin = user?.role === 'admin'
     const { themeStyles, theme } = useContext(themesContext)
     const [employees, setEmployees]  = useState([])
     const [itemsTotal, setItemsTotal] = useState(null)
@@ -84,137 +88,172 @@ export default function Dashboard() {
         const getTotalGoods = async () => {
             setLoadingShopItems(true)
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getItemsTotal`)
-                if(response.data.success) {
-                    setItemsTotal(response.data.total)
-                    setLoadingShopItems(false)
-                }
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getItemsTotal`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                setItemsTotal(response?.data?.total)
             } catch (err) {
                 console.log(err)
+            } finally {
                 setLoadingShopItems(false)
             }
         }
+        getTotalGoods()
+    }, [productAdded, refresh, token])
+    useEffect(() => {
         const getTotalPrices = async () => {
             setLoadingShopItems(true)
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getTotalPriceIems`)
-                if(response.data.success) {
-                    setItemsTotalPrice(response.data.totalPrice)
-                    setLoadingShopItems(false)
-                }
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getTotalPriceIems`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                setItemsTotalPrice(response?.data?.totalPrice)
             } catch(err) {
                 console.log(err)
+            } finally {
                 setLoadingShopItems(false)
             }
         }
+        getTotalPrices()
+    }, [productAdded, refresh, token])
+    useEffect(() => {
         const getTodaysSales = async () => {
             setLoadingSales(true)
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/todaySales/${userId}`)
-                setItemsSold_today(response.data.quantitySold)
-                setSalesMade_today(response.data.amountObtained)
-                setLoadingSales(false)
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/todaySales`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                setItemsSold_today(response?.data?.quantitySold)
+                setSalesMade_today(response?.data?.amountObtained)
             } catch(err) {
                 console.log(err)
+            } finally {
                 setLoadingSales(false)
             }
         }
+        getTodaysSales()
+    }, [productAdded, refresh, token, user])
+    useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getHistory/${userId}`)
-                if(response.data.success) {
-                    setOverallItemsSold(response.data.itemsSoldOverall)
-                    setAmountOverall(response.data.amountOverall)
-                }
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getHistory`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                setOverallItemsSold(response?.data?.itemsSoldOverall)
+                setAmountOverall(response?.data?.amountOverall)
             } catch(err) {
                 console.log(err)
             }
         }
+        fetchHistory()
+    }, [refresh, token])
+    useEffect(() => {
         const workerSalesForAdmin = async () => {
             setLoadingWorkers_data(true)
             try {
-                if(isAdmin) {
-                    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getWorkersHistory/${userId}`)
-                    if(response.data.success) {
-                        setWorkerSales_admin(response.data.otherHistories)
-                        setLoadingWorkers_data(false)    
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getWorkersHistory`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
                     }
-                }
+                })
+                setWorkerSales_admin(response?.data?.otherHistories)
             } catch(err) {
                 console.log(err)
+            } finally {
                 setLoadingWorkers_data(false)
             }
         }
+        workerSalesForAdmin()
+    }, [refresh, token])
+    useEffect(() => {
         const workerSalesTodayForAdmin = async () => {
             setLoadingWorkers_data(true)
             try {
-                if(isAdmin) {
-                    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getWorkersTodaySales/${userId}`)
-                    if(response.data.success) {
-                        setWorkerSales_today_admin(response.data.otherHistories)
-                        setLoadingWorkers_data(false)
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getWorkersTodaySales`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
                     }
-                }
+                })
+                setWorkerSales_today_admin(response?.data?.otherHistories)
             } catch(err) {
                 console.log(err)
+            } finally {
                 setLoadingWorkers_data(false)
             }
         }
+        workerSalesTodayForAdmin()
+    }, [refresh, token])
+    useEffect(() => {
         const fetchActions = async () => {
             try {
-                if(isAdmin) {
-                    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getActions/${userId}`)
-                    setActions(response.data.actions)
-                }
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getActions`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                setActions(response?.data?.actions)
             } catch(err) {
                 console.log(err)
             }
         }
+        fetchActions()
+    }, [actionsCleared, refresh, token])
+    useEffect(() => {
         const fetchTheTotals = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getTotalProductsAndSoldOnes`)
-                setTotalItemsPlusSold(response.data.totals)
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getTotalProductsAndSoldOnes`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                setTotalItemsPlusSold(response?.data?.totals)
             } catch(err) {
                 console.log(err)
             }
         }
         fetchTheTotals()
-        fetchActions()
-        workerSalesForAdmin()
-        workerSalesTodayForAdmin()
-        fetchHistory()
-        getTotalGoods()
-        getTotalPrices()
-        getTodaysSales()
-    }, [productAdded, userId, isAdmin, actionsCleared, refresh])
+    }, [productAdded, refresh, token]) //I'm here checking the dependencies and checking for reasponse.data?.error, i changed them all to messages so i need to cgheange them
 
     useEffect(() => {
         const fetchEmployees = async () => {
             setGettingEmployees(true)
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getAllEmployees/${userId}`)
-                if(response.data.success) {
-                    setEmployees(response.data.users)
-                    setGettingEmployees(false)
-                }
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getAllEmployees`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                setEmployees(response?.data?.users)
             } catch(err) {
                 console.log(err)
+            } finally {
                 setGettingEmployees(false)
             }
         }
         fetchEmployees()
-    }, [userId, grantingAcc, denyingAcc, deletingAcc, refresh])
+    }, [grantingAcc, denyingAcc, deletingAcc, refresh, token])
 
     const grantAccess = async (id) => {
         setGrantingAcc(id)
         try{
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/grantAccess`, {id})
-            if(response.data.success) {
-                toast.success(response.data.message)
-            }
-            setGrantingAcc(null)
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/grantAccess`, {id}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            toast.success(response?.data?.message)
         } catch(err) {
             console.log(err)
+            toast.error(err?.response?.data?.message)
+        } finally {
             setGrantingAcc(null)
         }
     }
@@ -222,13 +261,16 @@ export default function Dashboard() {
     const removeAccess = async (id) => {
         setDenyingAcc(id)
         try{
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/removeAccess`, {id})
-            if(response.data.success) {
-                toast.success(response.data.message)
-            }
-            setDenyingAcc(null)
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/removeAccess`, {id}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            toast.success(response.data.message)
         } catch(err) {
             console.log(err)
+            toast.error(err?.response?.data?.message)
+        } finally {
             setDenyingAcc(null)
         }
     }
@@ -236,13 +278,17 @@ export default function Dashboard() {
     const deleteAccount = async (id) => {
         setDeletingAcc(id)
         try{
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/delAcc`, {id})
-            if(response.data.success) {
-                toast.success(response.data.message)
-            }
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/delAcc`, {id}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            toast.success(response.data.message)
             setDeletingAcc(null)
         } catch(err) {
             console.log(err)
+            toast.success(err?.response?.data?.message)
+        } finally {
             setDeletingAcc(null)
         }
     }
@@ -253,28 +299,28 @@ export default function Dashboard() {
         quantity,
         price
     }
+
     const addProduct = async (e) => {
         e.preventDefault()
         setAddingPrd(true)
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/addProduct`, productData)
-            if(response.data.success) {
-                toast.success(response.data.message)
-                setProductAdded(prevState => !prevState)
-                setName('')
-                setQuantity('')
-                setPrice('')
-                nameRef.current.value = ''
-                quantityRef.current.value = ''
-                priceRef.current.value = ''
-                setAddingPrd(false)
-            }
-            if(response.data.success === false) {
-                toast.error(response.data.error)
-                setAddingPrd(false)
-            }
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/addProduct`, productData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            toast.success(response.data.message)
+            setProductAdded(prevState => !prevState)
+            setName('')
+            setQuantity('')
+            setPrice('')
+            nameRef.current.value = ''
+            quantityRef.current.value = ''
+            priceRef.current.value = ''
         } catch (err) {
             console.log(err)
+            toast.error(err?.response?.data?.message)
+        } finally {
             setAddingPrd(false)
         }
     }
@@ -283,20 +329,17 @@ export default function Dashboard() {
         e.preventDefault()
         setAddingCat(true)
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/newCategory`, {cat_name})
-            if(response.data.success) {
-                toast.success(response.data.message)
-                setCat_name('')
-                catInputRef.current.value = ''
-                setCategoryAltered(prevState => !prevState)
-                setAddingCat(false)
-            }
-            if(response.data.success === false) {
-                toast.error(response.data.error)
-                setAddingCat(false)
-            }
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/addCategory`, {cat_name}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            toast.success(response?.data?.message)
+            setCategoryAltered(prevState => !prevState)
         } catch(err) {
             console.log(err)
+            toast.error(err?.response?.data?.message)
+        } finally {
             setCat_name('')
             catInputRef.current.value = ''
             setAddingCat(false)
@@ -306,20 +349,17 @@ export default function Dashboard() {
         e.preventDefault()
         setDeletingCat(true)
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteCategory`, {cat_name_del})
-            if(response.data.success) {
-                toast.success(response.data.message)
-                setCat_name_del('')
-                delCatInputRef.current.value = ''
-                setCategoryAltered(prevState => !prevState)
-                setDeletingCat(false)
-            }
-            if(response.data.success === false) {
-                toast.error(response.data.error)
-                setDeletingCat(false)
-            }
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteCategory`, {cat_name_del}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            toast.success(response?.data?.message)
+            setCategoryAltered(prevState => !prevState)
         } catch(err) {
             console.log(err)
+            toast.error(err?.response?.data?.message)
+        } finally {
             setCat_name_del('')
             delCatInputRef.current.value = ''
             setDeletingCat(false)
@@ -328,30 +368,38 @@ export default function Dashboard() {
 
     useEffect(() => {
         const fetchCategories = async () => {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getAllCategory`)
-            setCategories(response.data.categories)
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getAllCategory`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            setCategories(response?.data?.categories)
         }
         fetchCategories()
-    }, [categoryAltered, refresh])
+    }, [categoryAltered, refresh, token])
 
     const fetchWorkerTodayHistory = async (userId, firstName, lastName) => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/todaySales/${userId}`)
-            if(response.data.success) {
-                const history  = response.data.history
-                navigate('/worker_history', { state: {history, firstName, lastName}})
-            }
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/worker_check_todaySales_btn_press/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            const history  = response?.data?.history
+            navigate('/worker_history', { state: {history, firstName, lastName}})
         } catch(err) {
             console.log(err)
         }
     }
     const fetchWorkerHistory = async (userId, firstName, lastName) => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getHistory/${userId}`)
-            if(response.data.success) {
-                const history  = response.data.history
-                navigate('/worker_history', { state: {history, firstName, lastName}})
-            }
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/worker_check_getHistory_btn_press/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            const history  = response?.data?.history
+            navigate('/worker_history', { state: {history, firstName, lastName}})
         } catch(err) {
             console.log(err)
         }
@@ -361,18 +409,17 @@ export default function Dashboard() {
         e.preventDefault()
         setClearingActions(true)
         try {
-            const  response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteAllActions`)
-            if(response.data.success) { 
-                toast.success(response.data.message)
-                setActionsCleared(prevState => !prevState)
-                setClearingActions(false)
-            }
-            if(response.data.success === false){
-              toast.error(response.data.error)
-              setClearingActions(false)
-            }
+            const  response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteAllActions`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            toast.success(response?.data?.message)
+            setActionsCleared(prevState => !prevState)
         } catch(err) {
             console.log(err)
+            toast.error(err?.response?.data?.message)
+        } finally {
             setClearingActions(false)
         }
     }
@@ -476,7 +523,7 @@ export default function Dashboard() {
                                     {loadingSales ? 
                                         <CircularProgress />
                                         :
-                                    overallItemsSold
+                                        overallItemsSold
                                     }
                                 </div>
                             </div>
@@ -576,10 +623,10 @@ export default function Dashboard() {
                                 })}
                             />
                             <p className="prog1_header">Sales Today</p>
-                            <p className="text1">
+                            <div className="text1">
                                 <h2>{(percentage_salesToday).toFixed(1)}%</h2> 
                                 <p>{formatAmount(salesTarget)}(Limit)</p>
-                            </p>
+                            </div>
                         </div>
                         {/* Sold items / Total Shop items */}
                         <div className="today_items_sold">
@@ -594,10 +641,10 @@ export default function Dashboard() {
                                 })}
                             />
                             <p className="prog2_header">Items Sold Today</p>
-                            <p className="text2">
+                            <div className="text2">
                                 <h2>{!isNaN(percentage_items_Sold) ? `${(percentage_items_Sold).toFixed(1)}%` : '0%'}</h2> 
                                 <p>{itemsSold_today} / {totalItemsPlusSold} items</p>
-                            </p>
+                            </div>
                         </div>
                     </div>
                     {isAdmin && 
@@ -624,10 +671,10 @@ export default function Dashboard() {
                                             })}
                                         />
                                         <p className="prog3_header">{worker.firstName}&apos;s Sales Today</p>
-                                        <p className="text3">
+                                        <div className="text3">
                                             <h2>{(worker_today_percentage).toFixed(1)}%</h2> 
                                             <p>{formatAmount(salesTarget)}(Limit)</p>
-                                        </p>
+                                        </div>
                                     </div>
                                 )
                             })}
@@ -894,7 +941,7 @@ export default function Dashboard() {
                                                     <p>Name: {action.name}</p>
                                                 }
                                                 {action.quantitySold &&
-                                                    <p>Qunatity: {action.quantitySold}</p>
+                                                    <p>Quantity: {action.quantitySold}</p>
                                                 }
                                                 {action.totalPrice &&
                                                     <p>Total Price: {formatAmount(action.totalPrice)}</p>

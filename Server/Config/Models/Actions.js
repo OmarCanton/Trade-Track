@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const ActionSchema = mongoose.Schema({
+const ActionSchema = new mongoose.Schema({
     userId: String,
     action: String,
     reason: String,
@@ -13,4 +13,5 @@ const ActionSchema = mongoose.Schema({
     }
 }, {timestamps: true})
 
-module.exports = mongoose.model('Actions', ActionSchema)
+const Action = mongoose.model('Actions', ActionSchema)
+module.exports = Action

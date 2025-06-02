@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from 'axios'
-import { UserCredsContext, themesContext } from "../../Context/UserCredsContext"
+import { themesContext } from "../../Context/themeContext"
 import { ArrowBackIosNew } from '@mui/icons-material'
 import './History.css'
 import { RiCheckboxCircleFill } from "react-icons/ri"
@@ -11,10 +11,13 @@ import Dialog from "../../Components/Dialog"
 import { CircularProgress } from "@mui/material"
 import Lottie from 'lottie-react'
 import SearchNotFound from '../../Effects/SearchNotFound.json'
+import { useSelector } from "react-redux"
+import { authed_token } from "../../Redux/Slices/AuthSlice"
 
 export default function History() {
+    const token = useSelector(authed_token)
     const [history, setHistory] = useState([])
-    const { userId } = useContext(UserCredsContext)
+    const [fetchingHistory, setFetchingHistory] = useState(false)
     const { themeStyles } = useContext(themesContext)
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
@@ -31,37 +34,47 @@ export default function History() {
 
     useEffect(() => {
         const fetchHistory = async () => {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getHistory/${userId}`)
-            if(response.data.success) {
-                setHistory(response.data.history)
+            setFetchingHistory(true)
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/getHistory`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                setHistory(response?.data?.history)
+            } catch (err) {
+                console.error(err)
+                toast.error(err?.response?.data?.message)
+            } finally {
+                setFetchingHistory(false)
             }
         }
         fetchHistory()
-    }, [userId, deletingHistory, deletingAllHistory])
+    }, [token, deletingHistory, deletingAllHistory])
+
+    const payload = {
+        id,
+        name,
+        quantitySold,
+        totalPrice,
+        reason
+    }
     const deleteHistory = async (e) => {
         e.preventDefault()
         setDeleting(true)
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteHistory`, {
-                userId,
-                id,
-                name,
-                quantitySold,
-                totalPrice,
-                reason
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteHistory`, payload, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            if(response.data.success) {
-                toast.success(response.data.message)
-                setDeletingHistory(prevState => !prevState)
-                setDeleting(false)
-                setOpen(false)
-            }
-            if(response.data.success === false) {
-                toast.error(response.data.error)
-                setDeleting(false)
-            }
+            toast.success(response?.data?.message)
+            setDeletingHistory(prevState => !prevState)
+            setOpen(false)
         } catch(err) {
             console.log(err)
+            toast.error(err?.response?.data?.message)
+        } finally {
             setDeleting(false)
         }
     }
@@ -69,21 +82,18 @@ export default function History() {
         e.preventDefault()
         setDeletingAll(true)
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteAllHistory`, {
-                userId
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteAllHistory`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            if(response.data.success) {
-                toast.success(response.data.message)
-                setDeletingAllHistory(prevState => !prevState)
-                setDeletingAll(false)
-                setOpen_delAll(false)
-            }
-            if(response.data.success === false) {
-                toast.error(response.data.error)
-                setDeletingAll(false)
-            }
+            toast.success(response?.data?.message)
+            setDeletingAllHistory(prevState => !prevState)
+            setOpen_delAll(false)
         } catch(err) {
             console.log(err)
+            toast.error(err?.response?.data?.message)
+        } finally {
             setDeletingAll(false)
         }
     }
@@ -121,7 +131,26 @@ export default function History() {
                     </div>
                 }
             </div>
-            {history.length <= 0 && <Lottie style={{height: 500}} loop={true} animationData={SearchNotFound} />}
+            {
+                (() => {
+                    if(fetchingHistory) {
+                        return <Lottie style={{height: 500}} loop={true} animationData={SearchNotFound} />
+                    } else {
+                        if(history.length <= 0) {
+                            return (
+                               <h2 style={{ 
+                                    height: '50vh', 
+                                    display: 'flex', 
+                                    alignItems: 'flex-end', 
+                                    justifyContent: 'center' 
+                                }}>
+                                    No History found
+                                </h2>
+                            )
+                        }
+                    }
+                })()
+            }
             {history.length > 0 && 
                 <table>
                     <thead>

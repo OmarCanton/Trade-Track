@@ -3,10 +3,9 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import Register from "./Pages/Register/Register"
 import SignIn from './Pages/SignIn/SignIn'
 import VerifyOTP from './Pages/VerifyOTP/VerifyOTP'
-import { UserCredsContext, themesContext } from './Context/UserCredsContext'
+import { themesContext } from './Context/themeContext'
 import { AnimatePresence } from 'framer-motion'
-import toast, { Toaster } from 'react-hot-toast'
-import axios from 'axios'
+import { Toaster } from 'react-hot-toast'
 import Home from './Pages/Home/Home'
 import PageNotFound from './Pages/PageNotFound/PageNotFound'
 import ResetPassword from './Pages/ResetPassword/ResetPasssword'
@@ -14,47 +13,19 @@ import ContactAdmin from './Pages/ContactAdmin/ContactAdmin'
 import Dashboard from './Pages/Dashboards/Dashboard'
 import History from './Pages/History/History'
 import WorkerHistoryPage from './Pages/WorkerHistoryPage/WorkerHistoryPage'
+import { useSelector } from 'react-redux'
+import { authed_user } from './Redux/Slices/AuthSlice'
 
 export default function App() {
-  const [userId, setUserId] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return localStorage.getItem('isLoggedIn') || false
-  })
-  const [haveAccess, setHaveAccess] = useState(true)
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [history, setHistory] = useState([])
+  const user = useSelector(authed_user)
+  const isLoggedIn = user?.isAuthenticated
+  const canAccess = user?.canAccess
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'light'
   })
   const [showThemeOverlay, setShowThemeOverlay] = useState(false)
 
   const location = useLocation()
-
-  useEffect(() => {
-    const checkAuth = async () => {
-        try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/checkAuth`, {withCredentials: true})
-            if(response.data.authenticated) {
-              setIsLoggedIn(response.data.user.isAuthenticated)
-              setHaveAccess(response.data.user.canAccess)
-              setIsAdmin(response.data.user.isAdmin)
-              setUserId(response.data.user._id)
-              setFirstName(response.data.user.firstName)
-              setLastName(response.data.user.lastName)
-            }
-        } catch (err) {
-            toast.error(err.message, {
-                style: {
-                    backgroundColor: 'white',
-                    color: 'black'
-                }
-            })
-        }
-    }
-    checkAuth()
-  }, [location])
 
   useEffect(() => {
     localStorage.setItem('theme', theme)
@@ -71,42 +42,43 @@ export default function App() {
     }} 
   }
 
-
   return (
     <>
       <Toaster   
-          position='bottom-right'
-          toastOptions={{ duration: 3000 }} 
+        position='bottom-right'
+        toastOptions={{ duration: 3000 }} 
       />
       <themesContext.Provider value={{
-          theme, setTheme, changeTheme, themeStyles,
-          showThemeOverlay, setShowThemeOverlay,
-        }}
-      >
-        <UserCredsContext.Provider value={{
-          userId, setUserId,
-          isLoggedIn, setIsLoggedIn,
-          haveAccess, setHaveAccess,
-          firstName, setFirstName,
-          lastName, setLastName,
-          isAdmin,
-          history, setHistory
-        }}>
-          <AnimatePresence mode='wait'>
-            <Routes location={location} key={location.pathname}>
-              <Route index path='/' element={isLoggedIn ? <Home /> : <SignIn />} />
-              <Route path='auth/register' element={<Register />}/>
-              <Route path='auth/signin' element={<SignIn />}/>
-              <Route path='verify-otp' element={<VerifyOTP />} />
-              <Route path='reset-password/:token' element={<ResetPassword />} />
-              <Route path='dashboard' element={<Dashboard />} />
-              <Route path='history' element={<History />} />
-              <Route path='worker_history' element={<WorkerHistoryPage />} />
-              <Route path='contact_admin' element={<ContactAdmin />} />
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
-          </AnimatePresence>
-        </UserCredsContext.Provider>
+        theme, setTheme, changeTheme, themeStyles,
+        showThemeOverlay, setShowThemeOverlay,
+      }}>
+        <AnimatePresence mode='wait'>
+          <Routes location={location} key={location.pathname}>
+            <Route index path='/' 
+              element={
+                (() => {
+                  if(!canAccess) {
+                    return <ContactAdmin />
+                  } else {
+                    if(!isLoggedIn) {
+                      return <SignIn />
+                    } else {
+                      return <Home />
+                    }
+                  }
+              })()
+            } />
+            <Route path='auth/register' element={<Register />}/>
+            <Route path='auth/signin' element={<SignIn />}/>
+            <Route path='verify-otp/:id' element={<VerifyOTP />} />
+            <Route path='reset-password/:token' element={<ResetPassword />} />
+            <Route path='dashboard' element={<Dashboard />} />
+            <Route path='history' element={<History />} />
+            <Route path='worker_history' element={<WorkerHistoryPage />} />
+            <Route path='contact_admin' element={<ContactAdmin />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </AnimatePresence>
       </themesContext.Provider>
     </>
   )

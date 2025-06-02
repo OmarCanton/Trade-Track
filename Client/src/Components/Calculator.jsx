@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import './Calculator.css'
 import { RiCheckboxCircleFill, RiCloseCircleFill, RiCloseLine } from 'react-icons/ri'
 import { motion } from 'framer-motion'
-import { themesContext } from '../Context/UserCredsContext'
+import { themesContext } from '../Context/themeContext'
 import { CircularProgress } from '@mui/material'
 
-export default function Calculator({isOpen, onClose, name, quantity, setQuantity_sold, record, recording}) {
+export default function Calculator({isOpen, onClose, name, quantity, quantity_sold, setQuantity_sold, record, recording}) {
     const { theme } = useContext(themesContext)
     if(!isOpen) return null
     return (
@@ -47,9 +47,9 @@ export default function Calculator({isOpen, onClose, name, quantity, setQuantity
                         <p>Quantity Sold:</p>
                         <form onSubmit={record}>
                             <input 
+                                value={quantity_sold}
                                 onChange={(e) => setQuantity_sold(e.target.value)} 
                                 type="number" 
-                                defaultValue={1} 
                                 min={1} 
                             />
                             <button>
@@ -71,6 +71,7 @@ Calculator.propTypes = {
     onClose: PropTypes.any,
     name: PropTypes.string,
     quantity: PropTypes.any,
+    quantity_sold: PropTypes.any,
     setQuantity_sold: PropTypes.any,
     record: PropTypes.func,
     recording: PropTypes.any

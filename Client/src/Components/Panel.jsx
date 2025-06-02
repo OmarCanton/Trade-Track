@@ -5,49 +5,32 @@ import { GrUserAdmin } from "react-icons/gr";
 import { RiDashboardFill, RiHistoryFill, RiSearch2Line } from "react-icons/ri";
 import { TbLogout } from "react-icons/tb";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { UserCredsContext, themesContext } from "../Context/UserCredsContext";
-import { toast } from 'react-hot-toast'
-import axios from 'axios'
+import { themesContext } from "../Context/themeContext";
 import PropTypes from 'prop-types'
 import './Panel.css'
+import { useSelector, useDispatch } from "react-redux";
+import { authed_user, logout } from "../Redux/Slices/AuthSlice";
 
 export default function Panel ({panelRef, searchBar}) {
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const [loggingOut, setLoggingOut] = useState(false)
-    const { isAdmin, setIsLoggedIn } = useContext(UserCredsContext)
+    const user = useSelector(authed_user)
+    const isAdmin = user?.role === 'admin'
     const { theme } = useContext(themesContext)
     const location = useLocation()
 
     const handleLogout = async () => {
         setLoggingOut(true)
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/logout`, {withCredentials: true})
-            if(response.data.success) {
-                localStorage.removeItem('isLoggedIn')
-                setIsLoggedIn(response.data.success)
-                navigate('/auth/signin')
-            }
-            setLoggingOut(false)
-        } catch (err) {
-            if(err.response) {
-                toast.error(err.response.data.message, {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
-            } else {
-                toast.error('An Unknown error occured', {
-                    style: {
-                        backgroundColor: 'white',
-                        color: 'black'
-                    }
-                })
-            }
+            dispatch(logout())
+            navigate('/auth/signin')
+        } catch(err) {
+            console.error(err)
+        } finally {
             setLoggingOut(false)
         }
     }
-
     
     const showSearchBar = () => {
         searchBar.current.style.top = '15px'

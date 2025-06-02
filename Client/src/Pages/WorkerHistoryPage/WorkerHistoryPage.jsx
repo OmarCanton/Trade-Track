@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 import { ArrowBackIosNew } from '@mui/icons-material'
 import '../History/History.css'
 import { RiCheckboxCircleFill } from "react-icons/ri"
-import { themesContext } from "../../Context/UserCredsContext"
+import { themesContext } from "../../Context/themeContext"
 
 export default function WorkerHistoryPage() {
     const navigate = useNavigate()
