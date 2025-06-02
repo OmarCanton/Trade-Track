@@ -152,7 +152,7 @@
         width: 100%;
         & .recentSelected {
             padding-top: 20px;
-            border-bottom: 1px solid lightgrey;
+            /* border-bottom: 1px solid lightgrey; */
         }
         & .recentSelected {
             & .recentSelectedProducts {

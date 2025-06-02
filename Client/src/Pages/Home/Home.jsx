@@ -335,7 +335,7 @@ export default function Home() {
                 {!isSearch && !isFiltered && products.length > 0 &&
                     <div 
                         className="recentSelected"
-                        style={{...theme === 'dark' ? {borderBottom: '1px solid grey'} : {borderBottom: '1px solid lightgrey'}}}
+                        // style={{...theme === 'dark' ? {borderBottom: '1px solid grey'} : {borderBottom: '1px solid lightgrey'}}}
                     >
                         {recentItStatus === 'succeeded' &&
                             <motion.span 
