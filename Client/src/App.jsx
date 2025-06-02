@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import Register from "./Pages/Register/Register"
 import SignIn from './Pages/SignIn/SignIn'
 import VerifyOTP from './Pages/VerifyOTP/VerifyOTP'
@@ -18,7 +18,7 @@ import { authed_user } from './Redux/Slices/AuthSlice'
 
 export default function App() {
   const user = useSelector(authed_user)
-  const isLoggedIn = user?.isAuthenticated
+  const isAuthed = user?.isAuthenticated
   const canAccess = user?.canAccess
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'light'
@@ -55,19 +55,22 @@ export default function App() {
         <AnimatePresence mode='wait'>
           <Routes location={location} key={location.pathname}>
             <Route index path='/' 
-              element={
-                (() => {
-                  if(!canAccess) {
-                    return <ContactAdmin />
-                  } else {
-                    if(!isLoggedIn) {
-                      return <SignIn />
+              element={ (() => {
+                if(user === null) {
+                  return <Navigate to={'/auth/signin'}/>
+                } else {
+                  if(isAuthed) {
+                    if(!canAccess) {
+                      return <Navigate to={'/contact_admin'}/>
                     } else {
                       return <Home />
                     }
+                  } else {
+                    return <Navigate to={'/auth/signin'}/>
                   }
+                }
               })()
-            } />
+            }/>
             <Route path='auth/register' element={<Register />}/>
             <Route path='auth/signin' element={<SignIn />}/>
             <Route path='verify-otp/:id' element={<VerifyOTP />} />
