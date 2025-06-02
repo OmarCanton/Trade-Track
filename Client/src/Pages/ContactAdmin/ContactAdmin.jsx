@@ -12,7 +12,7 @@ export default function ContactAdmin() {
     const user = useSelector(authed_user)
     const navigate = useNavigate()
     const [loggingOut, setLoggingOut] = useState(false)
-    console.log(user)
+
     useEffect(() => {
         const canAccess = async () => {
             try {
