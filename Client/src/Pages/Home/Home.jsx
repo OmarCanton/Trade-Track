@@ -8,31 +8,22 @@ import {
     fetchSearchProduct, 
     fetchFilteredProduct,
     items, 
-    prodStatus, 
     search,
     filtered
 } from "../../Redux/Slices/ProductsSlice";
 import { 
     fetchRecents, 
-    recentItems, 
-    recentStatus 
 } from "../../Redux/Slices/RecentSelectedProds";
 import { useDispatch, useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
-import Lottie from 'lottie-react'
-import LoadingEffect from "../../Effects/LoadingEffect";
-import SearchNotFound from '../../Effects/SearchNotFound.json'
-import EmptyCart_Fav from '../../Effects/EmptyCart_Fav.json'
 import Panel from "../../Components/Panel";
 import Calculator from "../../Components/Calculator";
 import axios from "axios";
 import { toast } from 'react-hot-toast'
 import { 
-    DeleteForever, 
     RefreshRounded, 
     LightMode, 
     DarkMode,
-    EditRounded 
 } from '@mui/icons-material'
 import DeleteDialog from "../../Components/DeleteDialog";
 import ThemeChangeAnime from "../../Components/ThemeChangeAnime";
@@ -41,6 +32,8 @@ import {MenuRounded}  from '@mui/icons-material'
 import MenuOps from "../../Components/MenuOps";
 import { useNavigate } from "react-router-dom";
 import { authed_token, authed_user, updateCanAcess } from "../../Redux/Slices/AuthSlice";
+import RecentlySoldProducts from "../../Components/RecentProducts";
+import ShopProducts from "../../Components/ShopProducts";
 
 export default function Home() {
     const navigate = useNavigate()
@@ -58,9 +51,6 @@ export default function Home() {
         themeStyles 
     } = useContext(themesContext)
     const products = useSelector(items)
-    const status = useSelector(prodStatus)
-    const recents = useSelector(recentItems)
-    const recentItStatus = useSelector(recentStatus)
     const isSearch = useSelector(search)
     const isFiltered = useSelector(filtered)
     const dispatch = useDispatch()
@@ -160,13 +150,6 @@ export default function Home() {
         }
     }
 
-    const formatAmount = (amount) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'GHS'
-        }).format(amount)
-    }
-
     const enableThemeOverlay = () => {
         setShowThemeOverlay(true)
         setTimeout(() => {
@@ -210,6 +193,12 @@ export default function Home() {
         }
     }
 
+    const formatAmount = (amount) => {
+        return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'GHS'
+        }).format(amount)
+    }
     
 
     return (
@@ -333,222 +322,31 @@ export default function Home() {
             </motion.div>
             <div className="main">
                 {!isSearch && !isFiltered && products.length > 0 &&
-                    <div 
-                        className="recentSelected"
-                        // style={{...theme === 'dark' ? {borderBottom: '1px solid grey'} : {borderBottom: '1px solid lightgrey'}}}
-                    >
-                        {recentItStatus === 'succeeded' &&
-                            <motion.span 
-                                className="recSoldHeader"
-                                initial={{y: '10%', opacity: 0}}
-                                animate={{y:0, opacity: 1}}
-                                exit={{y: '10%', opacity: 0, transition: {
-                                    delay: 0.2
-                                }}}
-                                transition={{delay: 0.15, duration: 0.4, ease: 'anticipate'}}
-                            >
-                                Recently Sold Items
-                            </motion.span>
-                        }
-                        <div className="recentSelectedProducts">
-                            {recentItStatus === 'loading' && 
-                                <div className='loading'>
-                                    <LoadingEffect />
-                                </div>
-                            }
-                            {recentItStatus === 'succeeded' && recents.map(product => {
-                                return (
-                                    <motion.div 
-                                        key={product._id} 
-                                        className="product"
-                                        initial={{y: '10%', opacity: 0}}
-                                        animate={{y:0, opacity: 1}}
-                                        exit={{y: '10%', opacity: 0, transition: {
-                                            delay: 0.2
-                                        }}}
-                                        transition={{delay: 0.15, duration: 0.4, ease: 'anticipate'}}
-                                        onClick={() => handlePrdClick(product)}
-                                    >
-                                        <div 
-                                            className="img" 
-                                            data-watermark={
-                                                product.name.trim().split(" ")[0] + " " + product.category
-                                            }
-                                            style={{
-                                                ...theme === 'dark'? 
-                                                {backgroundColor: 'grey'} 
-                                                : 
-                                                { backgroundColor: 'rgb(233, 233, 233)'}
-                                            }}
-                                        >
-                                            {isAdmin &&
-                                                <span className="delPrd">
-                                                    <DeleteForever 
-                                                        htmlColor="red" 
-                                                        onClick={(e) => {
-                                                            setOpenDelDialog(true)
-                                                            setPrdNameDialog(product.name)
-                                                            setPrdIdDialog(product._id)
-                                                            e.stopPropagation()
-                                                        }}
-                                                    />
-                                                    <div className="edit">
-                                                        <EditRounded 
-                                                            htmlColor={theme === 'dark' ? "white" : "rgb(7, 67, 116)"}
-                                                            onClick={(e) => {
-                                                                handleUpdatePrdClick(product._id)
-                                                                e.stopPropagation()
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </span>
-                                            }
-                                            <span className="quantity">
-                                                {product.quantity > 0 ? 
-                                                    <span className="quantityTag">{product.quantity}</span>
-                                                    : 
-                                                    <span 
-                                                        className="outOfStock" 
-                                                        style={{
-                                                            ...theme === 'dark' ? 
-                                                            {backgroundColor: '#3c3c3c'}
-                                                            :
-                                                            {backgroundColor: 'grey'}
-                                                        }}
-                                                    >
-                                                        Out Of Stock
-                                                    </span>
-                                                }
-                                            </span>
-                                        </div>
-                                        <p className="name">{product.name}</p>
-                                        <div className="priceCat">
-                                            <span className="category">{product.category}</span>
-                                            <p className="price">{formatAmount(product.price)}</p>
-                                        </div>
-                                    </motion.div>
-                                )
-                            })}
-                        </div>
-                    </div>
+                    <RecentlySoldProducts 
+                        handleProductClick={handlePrdClick}
+                        formatAmount={formatAmount}
+                        handleUpdateProductClick={handleUpdatePrdClick}
+                        theme={theme}    
+                        isAdmin={isAdmin}
+                        setOpenDelDialog={setOpenDelDialog}
+                        setPrdNameDialog={setPrdNameDialog}
+                        setPrdIdDialog={setPrdIdDialog}
+                    />
                 }
-                <div className="prodsCatalogue">
-                    {status === 'succeeded' && products.length > 0 &&
-                        <motion.span 
-                            className='itemsHeader'
-                            initial={{y: '10%', opacity: 0}}
-                            animate={{y:0, opacity: 1}}
-                            exit={{y: '10%', opacity: 0, transition: {
-                                delay: 0.2
-                            }}}
-                            transition={{delay: 0.15, duration: 0.4, ease: 'anticipate'}}
-                        >
-                            {isSearch ? `Search Results for ${searchKey}` : 'Shop Items'}
-                        </motion.span>
-                    }
-                    <div className='productsContainer'>
-                        {status === 'loading' && 
-                            <div className='loading'>
-                                <LoadingEffect />
-                            </div>
-                        }
-                        {status === 'succeeded' && products.length <= 0 && (
-                            <motion.div 
-                                className="noItem"
-                                initial={{x: '-10%', opacity: 0}}
-                                animate={{x: 0, opacity: 1}}
-                                exit={{x: '-10%', opacity: 0, transition: {
-                                    delay: 0.2
-                                }}}
-                                transition={{delay: 0.15, duration: 0.4, ease: 'anticipate'}}
-                            >
-                                {(isSearch || isFiltered) ? 
-                                    <Lottie className="searchAnime" loop={true} animationData={SearchNotFound} />
-                                    : 
-                                    <Lottie className="searchAnime" loop={true} animationData={EmptyCart_Fav} />
-                                }
-                                <p 
-                                    style={{...themeStyles.style}}
-                                >
-                                    Oops! No Product found at this time.
-                                </p>
-                            </motion.div>
-                        )}
-                        {status === 'succeeded' && products.length > 0 && products.map(product => {
-                            return(
-                                <motion.div
-                                    key={product._id} 
-                                    className="product"
-                                    initial={{y: '10%', opacity: 0}}
-                                    animate={{y:0, opacity: 1}}
-                                    exit={{y: '10%', opacity: 0, transition: {
-                                        delay: 0.2
-                                    }}}
-                                    transition={{delay: 0.15, duration: 0.4, ease: 'anticipate'}}
-                                    onClick={() => handlePrdClick(product)}
-                                >
-                                    <div 
-                                        className="img"
-                                        data-watermark={
-                                            product.name.trim().split(" ")[0] + " " + product.category
-                                        }
-                                        style={{
-                                            ...theme === 'dark'? 
-                                            {backgroundColor: 'grey'} 
-                                            : 
-                                            { backgroundColor: 'rgb(233, 233, 233)'}
-                                        }}
-                                    >
-                                        {isAdmin &&                                            
-                                            <span className="delPrd">
-                                                <DeleteForever 
-                                                    htmlColor="red" 
-                                                    onClick={(e) => {
-                                                        setOpenDelDialog(true)
-                                                        setPrdNameDialog(product.name)
-                                                        setPrdIdDialog(product._id)
-                                                        e.stopPropagation()
-                                                    }}
-                                                />
-                                                <div className="edit">
-                                                    <EditRounded
-                                                        htmlColor={theme === 'dark' ? "white" : "rgb(7, 67, 116)"}
-                                                        onClick={(e) => {
-                                                            handleUpdatePrdClick(product._id)
-                                                            e.stopPropagation()
-                                                        }}
-                                                    />
-                                                </div>
-                                            </span>
-                                        }
-                                        <span className="quantity">
-                                            {product.quantity > 0 ? 
-                                                <span className="quantityTag">{product.quantity}</span> 
-                                                : 
-                                                <span 
-                                                    className="outOfStock"
-                                                    style={{
-                                                        ...theme === 'dark' ? 
-                                                        {backgroundColor: '#3c3c3c'}
-                                                        :
-                                                        {backgroundColor: 'grey'}
-                                                    }}
-                                                >
-                                                    Out Of Stock
-                                                </span>
-                                            }
-                                        </span>
-                                    </div>
-                                    <p className="name">{product.name}</p>
-                                    <div className="priceCat">
-                                        <span className="category">{product.category}</span>
-                                        <p className="price">{formatAmount(product.price)}</p>
-                                    </div>
-                                </motion.div>
-                            )
-                        })}
-                    </div>
-                </div>
+                <ShopProducts 
+                    handlePrdClick={handlePrdClick}
+                    handleUpdatePrdClick={handleUpdatePrdClick}
+                    formatAmount={formatAmount}
+                    theme={theme}
+                    themeStyles={themeStyles}
+                    searchKey={searchKey}
+                    isSearch={isSearch}
+                    isFiltered={isFiltered}
+                    setOpenDelDialog={setOpenDelDialog}
+                    setPrdNameDialog={setPrdNameDialog}
+                    setPrdIdDialog={setPrdIdDialog}
+                    isAdmin={isAdmin}
+                />
             </div>
             <Calculator 
                 isOpen={open} 
