@@ -193,11 +193,13 @@
                     justify-content: center;
                 }
                 & .noItem {
+                    /* border: 2px solid red; */
+                    scale: 0.9;
                     text-align: center;
                     font-weight: bold;
                     font-size: 2rem;
                     position: absolute;
-                    top: 8%;
+                    top: 15%;
                     justify-self: center;
                     color: grey;
                     display: flex;
