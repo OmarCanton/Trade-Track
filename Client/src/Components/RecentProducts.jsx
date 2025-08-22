@@ -32,7 +32,7 @@ export default function RecentlySoldProducts({
                     }}}
                     transition={{delay: 0.15, duration: 0.4, ease: 'anticipate'}}
                 >
-                    Recently Sold Items
+                    Recent Items
                 </motion.span>
             }
             <div className="recentSelectedProducts">

@@ -143,6 +143,7 @@ export default function SignIn() {
                     boxShadow: '0 7px 10px -5px black'
                 }}}
             >
+                <p style={{color: 'rgb(7, 141, 252)', fontWeight: 'bold', fontSize: '1.7rem'}}>Campus Gadgets Hub</p>
                 <div className="signin-header">
                     <p style={{...theme == 'dark' && {color: 'white'}}}>Sign in to your account</p>
                 </div>
@@ -154,6 +155,7 @@ export default function SignIn() {
                                 name="email" 
                                 placeholder='Enter your email'
                                 onChange={(e) => setEmail(e.target.value)}
+                                style={{color: 'rgb(7, 141, 252)', fontWeight: 'bold'}}
                             />
                         </div>
                         <div className="password">
@@ -163,6 +165,7 @@ export default function SignIn() {
                                 name="password" 
                                 placeholder='Enter password'
                                 onChange={(e) => setPassword(e.target.value)}
+                                style={{color: 'rgb(7, 141, 252)', fontWeight: 'bold'}}
                             />
                             {showPassword ? 
                                 <FaRegEye 
@@ -203,7 +206,7 @@ export default function SignIn() {
                 >
                     <Link 
                         onClick={() => setOpen(true)}
-                        style={{...theme === 'dark' && {color: 'rgb(7, 141, 252)'}}}
+                        style={{...theme === 'dark' && {color: 'rgb(7, 141, 252)'}, fontWeight: 'bold'}}
                     >
                         Forgot Password?
                     </Link>

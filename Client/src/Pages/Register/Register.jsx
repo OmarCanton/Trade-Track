@@ -114,9 +114,11 @@ export default function SignUp() {
                     boxShadow: '0 7px 10px -5px black'
                 }}}
             >
+                <p style={{color: 'rgb(7, 141, 252)', fontWeight: 'bold', fontSize: '1.7rem'}}>Campus Gadgets Hub</p>
                 <div className="signup-header">
                     <p style={{...theme === 'dark' && {color: 'white'}}}>Register</p>
                 </div>
+                <i style={{color: 'grey', fontSize: 'small', textAlign: 'center', borderLeft: '3.5px solid rgb(7, 141, 252)', borderRadius: 3, padding: 5, paddingBottom: 7}}>An OTP will be sent to via the email entered to verify your account after registration</i>
                 <div className="passBar" style={barStyles}></div>
                 <div className="form">
                     <form onSubmit={handleSignup}>
@@ -125,6 +127,7 @@ export default function SignUp() {
                                 type="text" 
                                 placeholder='Enter First Name'
                                 onChange={(e) => setFirstName(e.target.value)}
+                                style={{color: 'rgb(7, 141, 252)', fontWeight: 'bold'}}
                             />
                         </div>
                         <div className="lastName">
@@ -132,6 +135,7 @@ export default function SignUp() {
                                 type="text" 
                                 placeholder='Enter Last Name'
                                 onChange={(e) => setLastName(e.target.value)}
+                                style={{color: 'rgb(7, 141, 252)', fontWeight: 'bold'}}
                             />
                         </div>
                         <div className="email">
@@ -139,6 +143,7 @@ export default function SignUp() {
                                 type="email"
                                 placeholder='Enter Email'
                                 onChange={(e) => setEmail(e.target.value)}
+                                style={{color: 'rgb(7, 141, 252)', fontWeight: 'bold'}}
                             />
                         </div>
                         <div className="password">
@@ -147,6 +152,7 @@ export default function SignUp() {
                                 name="password" 
                                 placeholder='Enter Password'
                                 onChange={(e) => setPassword(e.target.value)}
+                                style={{color: 'rgb(7, 141, 252)', fontWeight: 'bold'}}
                             />
                             {showPass ? 
                                 <FaRegEye 
@@ -170,6 +176,7 @@ export default function SignUp() {
                                 name="confPassword" 
                                 placeholder='Confirm Password'
                                 onChange={(e) => setConfPassword(e.target.value)}
+                                style={{color: 'rgb(7, 141, 252)', fontWeight: 'bold'}}
                             />
                             {showConfPass ? 
                                 <FaRegEye 
@@ -193,6 +200,7 @@ export default function SignUp() {
                                 defaultValue={'none'} id='select' 
                                 name="sex"
                                 onChange={(e) => setSex(e.target.value)}
+                                style={{fontWeight: 'bold'}}
                             >
                                 <option value="none">None</option>
                                 <option value="male">Male</option>

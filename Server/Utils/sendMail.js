@@ -26,7 +26,7 @@ const sendMails = async (user, res, randomCode) => {
             padding: 20px;
             }
             .header {
-            background-color: #4CAF50;
+            background-color: #rgb(7, 141, 252);
             color: white;
             padding: 15px;
             text-align: center;
@@ -42,7 +42,7 @@ const sendMails = async (user, res, randomCode) => {
             font-weight: bold;
             text-align: center;
             margin: 20px 0;
-            color: #4CAF50;
+            color: #rgb(7, 141, 252);
             }
             .footer {
             margin-top: 20px;
