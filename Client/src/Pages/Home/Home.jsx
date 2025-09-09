@@ -220,9 +220,9 @@ export default function Home() {
                         <MenuRounded onClick={() => setOpenMenu(true)}/>
                     }
                     {window.innerWidth < 1024 ?
-                        <p>CGH</p>
+                        <p>Tt</p>
                         :
-                        <p>Campus Gadgets Hub</p>
+                        <p>Trade Track</p>
                     }
                 </h2>
                 <div 

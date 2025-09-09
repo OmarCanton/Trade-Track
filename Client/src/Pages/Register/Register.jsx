@@ -114,7 +114,7 @@ export default function SignUp() {
                     boxShadow: '0 7px 10px -5px black'
                 }}}
             >
-                <p style={{color: 'rgb(7, 141, 252)', fontWeight: 'bold', fontSize: '1.7rem'}}>Campus Gadgets Hub</p>
+                <p style={{color: 'rgb(7, 141, 252)', fontWeight: 'bold', fontSize: '1.7rem'}}>Trade Track</p>
                 <div className="signup-header">
                     <p style={{...theme === 'dark' && {color: 'white'}}}>Register</p>
                 </div>
